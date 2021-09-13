@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-
+import Player from '../entities/player';
 
 class PlayScene extends Phaser.Scene {
   constructor() {
@@ -11,6 +11,8 @@ class PlayScene extends Phaser.Scene {
   create() {
     const map = this.createMap();
     const layers = this.createLayers(map)
+    this.player = this.createPlayer()
+    this.player.addColider(layers.platformColiders)
   }
 
   createMap() {
@@ -21,10 +23,20 @@ class PlayScene extends Phaser.Scene {
 
   createLayers(map) {
     const tileset = map.getTileset('tileset');
-    const layer2 = map.createStaticLayer('layer2', tileset)
-    const layer1 = map.createStaticLayer('layer1', tileset)
-    return { layer1, layer2 }
+    const platformColiders = map.createStaticLayer('platform_coliders', tileset)
+    const envoirement = map.createStaticLayer('envoirement', tileset)
+    const platforms = map.createStaticLayer('platforms', tileset)
+
+    // platformColiders.setCollisionByExclusion(-1, true)
+    platformColiders.setCollisionByProperty({ colider: true })
+
+    return { platforms, envoirement, platformColiders }
   }
+
+  createPlayer() {
+    return new Player(this, 200, 100)
+  }
+
 
 }
 

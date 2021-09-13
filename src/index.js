@@ -4,12 +4,16 @@ import PlayScene from "./scenes/play";
 import PreloadScene from "./scenes/preload-scene";
 
 
-const WIDTH = 1280;
+const WIDTH = document.body.offsetWidth;
 const HEIGHT = 600;
+const MAP_WIDTH = 1600
+const ZOOM = 1.5
 
 const SHARED_CONFIG = {
   width: WIDTH,
   height: HEIGHT,
+  mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0
+  , zoom: ZOOM
 }
 
 const scenes = [PreloadScene, PlayScene]

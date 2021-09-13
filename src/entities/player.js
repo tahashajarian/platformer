@@ -18,6 +18,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.playerSpeed = 150
     this.playerJump = 300
     this.jumpCount = 0
+    this.setOrigin(0.5, 1)
     this.body.setGravityY(this.gravity)
     this.setCollideWorldBounds(true)
     initAnimations(this.scene.anims)

@@ -7,7 +7,7 @@ import PreloadScene from "./scenes/preload-scene";
 const WIDTH = document.body.offsetWidth;
 const HEIGHT = 600;
 const MAP_WIDTH = 1600
-const ZOOM = 1.5
+const ZOOM = 1
 
 const SHARED_CONFIG = {
   width: WIDTH,
@@ -28,7 +28,7 @@ const config = {
     default: 'arcade',
     arcade: {
       // gravity: { y: 400 },
-      debug: false
+      debug: true
     }
   },
   scene: initScenes()

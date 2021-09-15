@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
+import Enemies from '../groups/enemies';
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -11,8 +12,10 @@ class PlayScene extends Phaser.Scene {
     const map = this.createMap();
     this.createLayers(map);
     this.getPlayerZone(this.layers.playerZone);
-    this.player = this.createPlayer(this.playerZone.start);
-    this.player.addColider(this.layers.platformColiders);
+    this.createPlayer(this.playerZone.start);
+    this.createEnemies(this.layers.enemiesZone);
+    this.createColiders(this.player, [this.layers.platformColiders, this.enemies]);
+    this.createColiders(this.enemies, [this.layers.platformColiders]);
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
   }
@@ -34,7 +37,7 @@ class PlayScene extends Phaser.Scene {
     const envoirement = map.createStaticLayer('envoirement', tileset);
     const platforms = map.createStaticLayer('platforms', tileset);
     const playerZone = map.getObjectLayer('player_zone');
-
+    const enemiesZone = map.getObjectLayer('enemies_zone');
     // platformColiders.setCollisionByExclusion(-1, true)
     platformColiders.setCollisionByProperty({
       colider: true,
@@ -45,11 +48,30 @@ class PlayScene extends Phaser.Scene {
       envoirement,
       platformColiders,
       playerZone,
+      enemiesZone,
     };
   }
 
   createPlayer(zone) {
-    return new Player(this, zone.x, zone.y);
+    this.player = new Player(this, zone.x, zone.y);
+  }
+
+  createEnemies(enemiesZone) {
+    this.enemies = new Enemies(this);
+    const zones = enemiesZone.objects;
+    const types = this.enemies.getTypes();
+
+    zones.forEach((zone) => {
+      const enemy = new types[zone.type](this, zone.x, zone.y);
+      this.enemies.add(enemy);
+    });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  createColiders(item, coliders) {
+    coliders.forEach((colid) => {
+      item.addColider(colid);
+    });
   }
 
   setupfollowingCameraOn() {

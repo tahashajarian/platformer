@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import initAnimations from './player-anims';
+import initAnimations from './animations/player-anims';
 import addColiders from '../mixins/add-coliders';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
@@ -23,6 +23,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     initAnimations(this.scene.anims);
     this.setScale(1.1);
+    this.body.setSize(20, 35);
+    this.body.setOffset(7, 3);
   }
 
   initEvents() {
@@ -30,7 +32,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    // console.log(time, delta)
     const {
       left, right, space,
     } = this.cursor;

@@ -18,6 +18,42 @@ class PlayScene extends Phaser.Scene {
     this.createColiders(this.enemies, [this.layers.platformColiders]);
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
+    // add graphic
+    this.graphic = this.add.graphics();
+    this.line = new Phaser.Geom.Line();
+    this.graphic.lineStyle(1, 0x00ff00);
+
+    this.input.on('pointerdown', this.startDrawing, this);
+    this.input.on('pointerup', this.endDrawing, this);
+    this.isDrawing = false;
+  }
+
+  startDrawing(pointer) {
+    this.line.x1 = pointer.worldX;
+    this.line.y1 = pointer.worldY;
+    this.isDrawing = true;
+    (this.tileHits || []).forEach((tile) => {
+      if (tile.index > -1) {
+        tile.setCollision(false);
+      }
+    });
+  }
+
+  endDrawing() {
+    this.tileHits = this.layers.platforms.getTilesWithinShape(this.line);
+    this.tileHits.forEach((tile) => {
+      if (tile.index > -1) {
+        tile.setCollision(true);
+      }
+    });
+    this.isDrawing = false;
+    this.drawDebug();
+  }
+
+  drawDebug() {
+    this.layers.platforms.renderDebug(this.graphic, {
+      tileColor: null,
+    });
   }
 
   createMap() {
@@ -106,6 +142,16 @@ class PlayScene extends Phaser.Scene {
       console.log('player got end level hooooooooo');
       elOverlap.active = false;
     });
+  }
+
+  update() {
+    if (this.isDrawing) {
+      const pointer = this.input.activePointer;
+      this.line.x2 = pointer.worldX;
+      this.line.y2 = pointer.worldY;
+      this.graphic.clear();
+      this.graphic.strokeLineShape(this.line);
+    }
   }
 }
 

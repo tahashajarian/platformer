@@ -19,16 +19,31 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   init() {
     Object.assign(this, addColiders);
     this.gravity = 500;
-    this.speed = 150;
+    this.speed = 50;
     this.setOrigin(0.5, 1);
     this.body.setGravityY(this.gravity);
     this.setCollideWorldBounds(true);
     this.setImmovable(true);
-    this.setVelocityX(30);
+    this.setVelocityX(this.speed);
     initAnimations(this.scene.anims);
+    this.rayLength = 30;
+    this.rayGraphic = this.scene.add.graphics({ lineStyle: { width: 2, color: 0xff0000 } });
   }
 
   update() {
     this.play(`idle-${this.key}`, true);
+    this.patrol();
+  }
+
+  patrol() {
+    if (this.body) {
+      this.raycast(this.body, 10, 0.5);
+      if (!this.hasHit) {
+        this.setFlipX(!this.flipX);
+        this.setVelocityX(this.body.velocity.x * -1);
+      }
+      this.rayGraphic.clear();
+      this.rayGraphic.strokeLineShape(this.ray);
+    }
   }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="100" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="20">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="21">
  <editorsettings>
   <export target="map.json" format="json"/>
  </editorsettings>
@@ -180,6 +180,9 @@
    <point/>
   </object>
   <object id="19" name="enemy" type="Snakyman" x="1312" y="144">
+   <point/>
+  </object>
+  <object id="20" name="enemy" type="Birdman" x="346" y="198">
    <point/>
   </object>
  </objectgroup>

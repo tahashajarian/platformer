@@ -14,8 +14,18 @@ class PlayScene extends Phaser.Scene {
     this.getPlayerZone(this.layers.playerZone);
     this.createPlayer(this.playerZone.start);
     this.createEnemies(this.layers.enemiesZone);
-    this.createColiders(this.player, [this.layers.platformColiders, this.enemies]);
-    this.createColiders(this.enemies, [this.layers.platformColiders]);
+    this.createColiders(this.player, [{
+      object: this.layers.platformColiders,
+      callback: this.player.touchedFloor,
+    }, {
+      object: this.enemies,
+      callback: this.player.hited,
+
+    }]);
+    this.createColiders(this.enemies, [{
+      object: this.layers.platformColiders,
+      callback: null,
+    }]);
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
     // add graphic
@@ -106,7 +116,7 @@ class PlayScene extends Phaser.Scene {
   // eslint-disable-next-line class-methods-use-this
   createColiders(item, coliders) {
     coliders.forEach((colid) => {
-      item.addColider(colid);
+      item.addColider(colid.object, colid.callback);
     });
   }
 

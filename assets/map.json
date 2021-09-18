@@ -1,4 +1,4 @@
-{ "compressionlevel":-1,
+{ "compressionlevel":0,
  "height":40,
  "infinite":false,
  "layers":[
@@ -137,6 +137,18 @@
                  "width":0,
                  "x":1312,
                  "y":144
+                }, 
+                {
+                 "height":0,
+                 "id":20,
+                 "name":"enemy",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Birdman",
+                 "visible":true,
+                 "width":0,
+                 "x":346,
+                 "y":198
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -145,7 +157,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":20,
+ "nextobjectid":21,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",

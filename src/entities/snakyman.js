@@ -5,7 +5,7 @@ export default class Snakyman extends Enemy {
     super(scene, x, y, 'snakyman');
     // this.init();
     this.body.setSize(20, 60);
-    this.body.setOffset(12, 3);
+    this.body.setOffset(6, 3);
   }
 
   update(time, delta) {

@@ -77,12 +77,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   hited(enemy, player) {
+    if (this.hasBeenHited) return;
     this.hasBeenHited = true;
     this.bounceOff();
+    this.tween()
+    this.scene.time.delayedCall(1000, () => {
+      this.hasBeenHited = false;
+      this.twining.stop();
+      this.clearTint();
+    })
+  }
+
+  tween() {
+    this.twining = this.scene.tweens.add({
+      targets: this,
+      duration: 100,
+      repeat: -1,
+      tint: 0xffffff
+    })
   }
 
   touchedFloor() {
-    this.hasBeenHited = false;
+    // this.hasBeenHited = false;
   }
 }
 

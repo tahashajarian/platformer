@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import initAnimations from './animations/player-anims';
 import addColiders from '../mixins/add-coliders';
+import HealthBar from '../hud/healthbar';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -27,6 +28,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.body.setOffset(7, 3);
     this.hasBeenHited = false;
     this.bounceVelocity = 250;
+    this.health = 100;
+    this.totalHealth = 100;
+    this.hb = new HealthBar(this.scene, 20, 15, this.health)
   }
 
   initEvents() {
@@ -76,7 +80,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  hited(enemy, player) {
+  hited(player, enemy) {
     if (this.hasBeenHited) return;
     this.hasBeenHited = true;
     this.bounceOff();
@@ -86,6 +90,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.twining.stop();
       this.clearTint();
     })
+    this.health -= enemy.damage
+    // this.health -= (this.totalHealth/10)
+    this.hb.draw(this.health)
+    // debugger
   }
 
   tween() {

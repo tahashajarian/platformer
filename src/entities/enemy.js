@@ -28,6 +28,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     initAnimations(this.scene.anims);
     this.rayLength = 30;
     this.rayGraphic = this.scene.add.graphics({ lineStyle: { width: 2, color: 0xff0000 } });
+    this.damage = 10;
   }
 
   update() {

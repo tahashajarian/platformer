@@ -5,6 +5,7 @@ export default class Birdman extends Enemy {
     super(scene, x, y, 'birdman');
     this.body.setSize(20, 40);
     this.body.setOffset(8, 22);
+    this.damage = 10;
   }
 
   update(time, delta) {

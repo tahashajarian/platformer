@@ -20,7 +20,10 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.enemies,
       callback: this.player.hited,
-
+    }]);
+    this.createColiders(this.enemies, [{
+      object: this.player.projectiles,
+      callback: this.onFiredEnemy,
     }]);
     this.createColiders(this.enemies, [{
       object: this.layers.platformColiders,
@@ -47,6 +50,10 @@ class PlayScene extends Phaser.Scene {
         tile.setCollision(false);
       }
     });
+  }
+
+  onFiredEnemy(enemy, source) {
+    enemy.takeHit(source)
   }
 
   endDrawing() {

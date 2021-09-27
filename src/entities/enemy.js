@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import addColiders from '../mixins/add-coliders';
+import isAnimPlaying from '../mixins/anims';
 import initAnimations from './animations/enemy-anims';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
@@ -18,6 +19,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   init() {
     Object.assign(this, addColiders);
+    Object.assign(this, isAnimPlaying)
     this.gravity = 500;
     this.speed = 50;
     this.setOrigin(0.5, 1);
@@ -29,11 +31,15 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.rayLength = 30;
     this.rayGraphic = this.scene.add.graphics({ lineStyle: { width: 2, color: 0xff0000 } });
     this.damage = 10;
+    this.hited = false;
   }
 
   update() {
-    this.play(`idle-${this.key}`, true);
     this.patrol();
+    if (this.isAnimPlaying(`hit-${this.key}`)) {
+      return
+    }
+    this.play(`idle-${this.key}`, true);
   }
 
   patrol() {
@@ -48,5 +54,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
         this.rayGraphic.strokeLineShape(this.ray);
       }
     }
+  }
+
+  takeHit(source) {
+    this.hited = true;
+    console.log('enemy => source => ', source, this.health)
+    this.health -= source.damage;
+    source.refactor();
+    this.play(`hit-${this.key}`, false);
   }
 }

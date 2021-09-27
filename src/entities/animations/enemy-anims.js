@@ -15,4 +15,20 @@ export default (anims) => {
     frameRate: 8,
     repeat: -1,
   });
+  anims.create({
+    key: 'hit-birdman',
+    frames: anims.generateFrameNumbers('birdman', {
+      start: 24, end: 27,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
+  anims.create({
+    key: 'hit-snakyman',
+    frames: anims.generateFrameNumbers('snakyman', {
+      start: 20, end: 23,
+    }),
+    frameRate: 8,
+    repeat: 0,
+  });
 };

@@ -20,7 +20,7 @@ export default (anims) => {
     frames: anims.generateFrameNumbers('birdman', {
       start: 24, end: 27,
     }),
-    frameRate: 8,
+    frameRate: 12,
     repeat: 0,
   });
   anims.create({
@@ -28,7 +28,7 @@ export default (anims) => {
     frames: anims.generateFrameNumbers('snakyman', {
       start: 20, end: 23,
     }),
-    frameRate: 8,
+    frameRate: 12,
     repeat: 0,
   });
 };

@@ -29,6 +29,11 @@ class PlayScene extends Phaser.Scene {
       object: this.layers.platformColiders,
       callback: null,
     }]);
+
+    this.createColiders(this.player.projectiles, [{
+      object: this.layers.platformColiders,
+      callback: this.onHitPlaftormByProjectile
+    }]);
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
     // add graphic
@@ -52,9 +57,16 @@ class PlayScene extends Phaser.Scene {
     });
   }
 
-  onFiredEnemy(enemy, source) {
-    enemy.takeHit(source)
+  onFiredEnemy(enemy, projectile) {
+    enemy.takeHit(projectile)
+    projectile.hit()
   }
+
+
+  onHitPlaftormByProjectile(projectile) {
+    projectile.hit()
+  }
+
 
   endDrawing() {
     this.tileHits = this.layers.platforms.getTilesWithinShape(this.line);
@@ -155,8 +167,6 @@ class PlayScene extends Phaser.Scene {
       .setOrigin(0.5, 1);
 
     const elOverlap = this.physics.add.overlap(this.player, endLevel, () => {
-      // eslint-disable-next-line no-console
-      console.log('player got end level hooooooooo');
       elOverlap.active = false;
     });
   }

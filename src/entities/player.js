@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import initAnimations from './animations/player-anims';
+import initAnimations from '../animations/player-anims';
 import addColiders from '../mixins/add-coliders';
 import isAnimPlaying from '../mixins/anims';
 import HealthBar from '../hud/healthbar';

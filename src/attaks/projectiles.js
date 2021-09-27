@@ -1,4 +1,5 @@
 import Phaser, { Data } from "phaser";
+import addColiders from "../mixins/add-coliders";
 import { getTimeStamp } from "../utils/functions";
 import Projectile from "./projectile";
 
@@ -14,6 +15,7 @@ export default class Projectiles extends Phaser.Physics.Arcade.Group {
     })
     this.coolDown = 3000;
     this.isHot = false;
+    Object.assign(this, addColiders);
   }
 
   fireProjectile(initiator) {
@@ -21,7 +23,7 @@ export default class Projectiles extends Phaser.Physics.Arcade.Group {
     const centerPlayerBody = initiator.getCenter();
     if (!projectile) {
       this.lastFiredAll = getTimeStamp();
-      initiator.setTint(0xF23103);
+      initiator.setTint(0xF79E00);
       this.isHot = true
       this.scene.time.addEvent({
         delay: this.coolDown,

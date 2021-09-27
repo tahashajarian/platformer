@@ -1,13 +1,17 @@
 import Phaser from "phaser";
-
+import hitAnimation from "../animations/hit-animation";
+import EffectManager from "../effects/effect-manager";
 export default class Projectile extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, key) {
     super(scene, x, y, key);
     scene.add.existing(this);
     scene.physics.add.existing(this)
-    this.speed = 300;
+    this.speed = 400;
     this.maxDistance = 600;
     this.traveledDistance = 0;
+    this.body.setSize(18, 18)
+    hitAnimation(this.scene.anims)
+    this.effectManager = new EffectManager(this.scene)
   }
   fire(x, y, facingRight) {
     this.setActive(true)
@@ -28,22 +32,23 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
     this.traveledDistance += this.body.deltaAbsX()
-    this.alpha = Math.abs(this.traveledDistance / this.maxDistance - 1) + 0.5;
     if (this.traveledDistance >= this.maxDistance) {
-      setTimeout(() => {
-        this.setActive(false);
-        this.setVisible(false)
-      }, this.refactorTime);
-      this.traveledDistance = 0
-      this.body.reset(-100, -100)
+      this.refactor()
     }
   }
 
   refactor() {
-    this.setActive(false);
-    this.setVisible(false);
+    setTimeout(() => {
+      this.setActive(false);
+    }, this.refactorTime);
+    this.setVisible(false)
     this.traveledDistance = 0
     this.body.reset(-100, -100)
+  }
+
+  hit() {
+    this.effectManager.playEffectOn('hit-effect-anim', {x: this.x, y: this.y})
+    this.refactor();
   }
 
 }

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import addColiders from '../mixins/add-coliders';
 import isAnimPlaying from '../mixins/anims';
-import initAnimations from './animations/enemy-anims';
+import initAnimations from '../animations/enemy-anims';
 
 export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y, key) {
@@ -35,6 +35,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
+    if (this.getBounds().bottom > 800) {
+      this.setActive(false)
+      this.scene.events.removeListener(Phaser.Scenes.Events.UPDATE, this.update, this)
+      this.rayGraphic.clear();
+      this.destroy();
+      return;
+    }
     this.patrol();
     if (this.isAnimPlaying(`hit-${this.key}`)) {
       return
@@ -58,9 +65,13 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
 
   takeHit(source) {
     this.hited = true;
-    console.log('enemy => source => ', source, this.health)
     this.health -= source.damage;
-    source.refactor();
     this.play(`hit-${this.key}`, false);
+    if (this.health <= 0) {
+      this.setTint(0xff0000)
+      this.setVelocity(0, -200)
+      this.body.checkCollision.none = true;
+      this.setCollideWorldBounds(false)
+    }
   }
 }

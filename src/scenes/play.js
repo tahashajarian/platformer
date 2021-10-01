@@ -34,6 +34,8 @@ class PlayScene extends Phaser.Scene {
       object: this.layers.platformColiders,
       callback: this.onHitPlaftormByProjectile
     }]);
+
+    this.player.melee.addOverlap(this.enemies, this.onSwordEnemy)
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
     // add graphic
@@ -60,6 +62,11 @@ class PlayScene extends Phaser.Scene {
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
     projectile.hit()
+  }
+
+  onSwordEnemy(melee, enemy) {
+    enemy.takeHit(melee)
+    melee.hit(enemy);
   }
 
 

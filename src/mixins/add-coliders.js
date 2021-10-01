@@ -2,6 +2,9 @@ export default {
   addColider(gameObject, callback) {
     this.scene.physics.add.collider(this, gameObject, callback, null, this);
   },
+  addOverlap(gameObject, callback) {
+    this.scene.physics.add.overlap(this, gameObject, callback, null, this);
+  },
   bodyPositionDifferenceX: 0,
   firstRun: true,
   raycast(body, pixleToCheckTileHit, angel) {

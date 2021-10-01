@@ -4,6 +4,8 @@ import addColiders from '../mixins/add-coliders';
 import isAnimPlaying from '../mixins/anims';
 import HealthBar from '../hud/healthbar';
 import Projectiles from '../attaks/projectiles';
+import Melee from '../attaks/melee';
+import { getTimeStamp } from '../utils/functions';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -35,10 +37,19 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.totalHealth = 100;
     this.hb = new HealthBar(this.scene, 20, 15, this.health)
     this.projectiles = new Projectiles(this.scene)
+    this.melee = new Melee(this.scene, 0, 0, 'sword')
+    this.lastMeleeTime = getTimeStamp();
     this.scene.input.keyboard.on('keydown-F', () => {
       if (!this.projectiles.isHot) {
         this.play('player-throw', false)
         this.projectiles.fireProjectile(this);
+      }
+    })
+    this.scene.input.keyboard.on('keydown-E', () => {
+      if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
+        this.play('player-throw', false)
+        this.melee.swing(this);
+        this.lastMeleeTime = getTimeStamp();
       }
     })
     this.facingRight = true;
@@ -51,7 +62,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   update() {
     if (this.hasBeenHited) return;
     if (this.isAnimPlaying('player-throw')) {
-      this.setVelocityX(0);
+      // this.setVelocityX(0);
       return
     }
     const {

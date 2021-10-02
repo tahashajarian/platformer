@@ -36,7 +36,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.health = 100;
     this.totalHealth = 100;
     this.hb = new HealthBar(this.scene, 20, 15, this.health)
-    this.projectiles = new Projectiles(this.scene)
+    this.projectiles = new Projectiles(this.scene, 'iceball')
     this.melee = new Melee(this.scene, 0, 0, 'sword')
     this.lastMeleeTime = getTimeStamp();
     this.scene.input.keyboard.on('keydown-F', () => {

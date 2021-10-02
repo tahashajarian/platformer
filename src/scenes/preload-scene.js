@@ -19,6 +19,10 @@ class PreloadScene extends Phaser.Scene {
       frameWidth: 32, frameHeight: 64, spacing: 32,
     });
     this.load.image('iceball', 'assets/weapons/iceball_002.png');
+    this.load.image('fireball_1', 'assets/weapons/improved_fireball_001.png');
+    this.load.image('fireball_2', 'assets/weapons/improved_fireball_002.png');
+    this.load.image('fireball_3', 'assets/weapons/improved_fireball_003.png');
+
     this.load.spritesheet('player-throw', 'assets/player/throw_attack_sheet_1.png', {
       frameWidth: 32, frameHeight: 38, spacing: 32,
     });

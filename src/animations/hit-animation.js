@@ -15,4 +15,16 @@ export default (anims) => {
     frameRate: 16,
     repeat: 0,
   });
+
+  anims.create({
+    key: 'fireball',
+    frames: [
+      {key: 'fireball_1'},
+      {key: 'fireball_2'},
+      {key: 'fireball_3'}
+    ],
+    frameRate: 5,
+    repeat: -1,
+  });
+  
 };

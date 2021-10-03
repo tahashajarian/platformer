@@ -239,13 +239,7 @@
   <object id="20" name="enemy" type="Birdman" x="352" y="208">
    <point/>
   </object>
-  <object id="35" name="enemy" type="Birdman" x="400" y="208">
-   <point/>
-  </object>
-  <object id="21" name="enemy" type="Birdman" x="240" y="208">
-   <point/>
-  </object>
-  <object id="34" name="enemy" type="Birdman" x="288" y="208">
+  <object id="35" name="enemy" type="Snakyman" x="400" y="208">
    <point/>
   </object>
  </objectgroup>

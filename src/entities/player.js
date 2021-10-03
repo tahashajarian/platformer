@@ -5,7 +5,9 @@ import isAnimPlaying from '../mixins/anims';
 import HealthBar from '../hud/healthbar';
 import Projectiles from '../attaks/projectiles';
 import Melee from '../attaks/melee';
-import { getTimeStamp } from '../utils/functions';
+import {
+  getTimeStamp
+} from '../utils/functions';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -29,8 +31,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     initAnimations(this.scene.anims);
     this.setScale(1.1);
-    this.body.setSize(20, 35);
-    this.body.setOffset(7, 3);
+    this.setDefalutSize()
     this.hasBeenHited = false;
     this.bounceVelocity = 250;
     this.health = 100;
@@ -39,39 +40,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.projectiles = new Projectiles(this.scene, 'iceball')
     this.melee = new Melee(this.scene, 0, 0, 'sword')
     this.lastMeleeTime = getTimeStamp();
-    this.scene.input.keyboard.on('keydown-F', () => {
-      if (!this.projectiles.isHot) {
-        this.play('player-throw', false)
-        this.projectiles.fireProjectile(this);
-      }
-    })
-    this.scene.input.keyboard.on('keydown-E', () => {
-      if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
-        this.play('player-throw', false)
-        this.melee.swing(this);
-        this.lastMeleeTime = getTimeStamp();
-      }
-    })
     this.facingRight = true;
+    this.handleAttacks();
+    this.handleMovments();
   }
 
   initEvents() {
     this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
   }
 
+  setDefalutSize() {
+    this.body.setSize(20, 35);
+    this.body.setOffset(7, 3);
+    this.width = 20
+    this.height = 35
+  }
+
   update() {
-    if (this.hasBeenHited) return;
-    if (this.isAnimPlaying('player-throw')) {
-      // this.setVelocityX(0);
-      return
-    }
+    if (this.hasBeenHited || this.sliding) return;
     const {
       left,
       right,
-      space,
+      down,
+      space
     } = this.cursor;
     const isSpaceJustDown = Phaser.Input.Keyboard.JustDown(space);
     const onFloor = this.body.onFloor();
+
+
     if (left.isDown) {
       this.setVelocityX(-this.playerSpeed);
       this.setFlipX(true);
@@ -90,6 +86,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
 
+    if (this.isAnimPlaying('player-throw') || this.isAnimPlaying('player-slide')) {
+      return
+    }
+
+
     if (onFloor) {
       if (this.body.velocity.x === 0) {
         this.play('idle', true);
@@ -100,6 +101,39 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       this.play('jump', true);
     }
+  }
+
+  handleAttacks() {
+    this.scene.input.keyboard.on('keydown-F', () => {
+      if (!this.projectiles.isHot) {
+        this.play('player-throw', false);
+        this.projectiles.fireProjectile(this, 'iceball');
+      }
+    })
+    this.scene.input.keyboard.on('keydown-E', () => {
+      if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
+        this.play('player-throw', false)
+        this.melee.swing(this);
+        this.lastMeleeTime = getTimeStamp();
+      }
+    })
+  }
+
+  handleMovments() {
+    this.scene.input.keyboard.on('keydown-DOWN', () => {
+      if (!this.body.onFloor()) return
+
+      this.play('player-slide', true)
+      this.body.setSize(20, this.height / 3)
+      this.setOffset(7, this.height - (this.height / 3))
+      this.setVelocityX(0)
+      this.sliding = true
+    })
+    this.scene.input.keyboard.on('keyup-DOWN', () => {
+      this.setDefalutSize()
+      this.sliding = false
+
+    })
   }
 
   bounceOff() {

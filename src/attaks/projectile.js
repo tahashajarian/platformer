@@ -13,7 +13,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     hitAnimation(this.scene.anims)
     this.effectManager = new EffectManager(this.scene)
   }
-  fire(x, y, facingRight) {
+  fire(x, y, facingRight, anim) {
+    this.facingRight = facingRight
     this.setActive(true)
     this.setVisible(true)
     if (facingRight) {
@@ -27,6 +28,10 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     }
     this.refactorTime = 1000;
     this.damage = 10;
+
+    if (anim) {
+      this.play(anim, true)
+    }
   }
 
   preUpdate(time, delta) {
@@ -46,8 +51,8 @@ export default class Projectile extends Phaser.Physics.Arcade.Sprite {
     this.body.reset(-100, -100)
   }
 
-  hit() {
-    this.effectManager.playEffectOn('hit-effect-anim', {x: this.x, y: this.y})
+  hit(anim) {
+    this.effectManager.playEffectOn(anim, {x: this.x, y: this.y}, this.facingRight)
     this.refactor();
   }
 

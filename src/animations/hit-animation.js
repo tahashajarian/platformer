@@ -27,4 +27,36 @@ export default (anims) => {
     repeat: -1,
   });
   
+  anims.create({
+    key: 'iceball',
+    frames: [
+      {key: 'iceball_1'},
+      {key: 'iceball_2'},
+    ],
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  anims.create({
+    key: 'iceball_hit',
+    frames: [
+      {key: 'iceball_hit_1'},
+      {key: 'iceball_hit_2'},
+      {key: 'iceball_hit_3'}
+    ],
+    frameRate: 18,
+    repeat: 0,
+  });
+  
+  anims.create({
+    key: 'fireball_hit',
+    frames: [
+      {key: 'fireball_hit_1'},
+      {key: 'fireball_hit_2'},
+      {key: 'fireball_hit_3'}
+    ],
+    frameRate: 18,
+    repeat: 0,
+  });
+  
 };

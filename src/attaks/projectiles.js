@@ -18,7 +18,7 @@ export default class Projectiles extends Phaser.Physics.Arcade.Group {
     Object.assign(this, addColiders);
   }
 
-  fireProjectile(initiator) {
+  fireProjectile(initiator, anim) {
     const projectile = this.getFirstDead(false);
     const centerPlayerBody = initiator.getCenter();
     if (!projectile) {
@@ -35,7 +35,7 @@ export default class Projectiles extends Phaser.Physics.Arcade.Group {
       })
       return;
     };
-    projectile.fire(centerPlayerBody.x, centerPlayerBody.y, initiator.facingRight);
+    projectile.fire(centerPlayerBody.x, centerPlayerBody.y, initiator.facingRight, anim);
   }
 
 }

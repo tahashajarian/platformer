@@ -20,6 +20,9 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.enemies,
       callback: this.player.hited,
+    }, {
+      object: this.enemies.getProjectiles(),
+      callback: this.hitedByProjectile,
     }]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
@@ -61,7 +64,12 @@ class PlayScene extends Phaser.Scene {
 
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
-    projectile.hit()
+    projectile.hit('hit-effect-anim')
+  }
+
+  hitedByProjectile(player, projectile) {
+    player.hited(player, projectile);
+    projectile.hit('fireball_hit')
   }
 
   onSwordEnemy(melee, enemy) {
@@ -71,8 +79,9 @@ class PlayScene extends Phaser.Scene {
 
 
   onHitPlaftormByProjectile(projectile) {
-    projectile.hit()
+    projectile.hit('iceball_hit')
   }
+  
 
 
   endDrawing() {

@@ -31,4 +31,13 @@ export default (anims) => {
     frameRate: 12,
     repeat: 0,
   });
+
+  anims.create({
+    key: 'fire-snakyman',
+    frames: anims.generateFrameNumbers('snakyman', {
+      start: 15, end: 19,
+    }),
+    frameRate: 12,
+    repeat: 0,
+  });
 };

@@ -46,7 +46,6 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     if (this.isAnimPlaying(`hit-${this.key}`)) {
       return
     }
-    this.play(`idle-${this.key}`, true);
   }
 
   patrol() {

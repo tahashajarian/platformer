@@ -41,7 +41,7 @@ export default class Snakyman extends Enemy {
     } else {
       this.body.setOffset(19, 3);
     }
-    if (this.isAnimPlaying('fire-snakyman')) {
+    if (this.isAnimPlaying('fire-snakyman') || this.isAnimPlaying('hit-snakyman')) {
       return
     }
     this.play(`idle-snakyman`, true);

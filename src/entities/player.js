@@ -108,6 +108,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       if (!this.projectiles.isHot) {
         this.play('player-throw', false);
         this.projectiles.fireProjectile(this, 'iceball');
+        this.setDefalutSize()
+        this.sliding = false
       }
     })
     this.scene.input.keyboard.on('keydown-E', () => {
@@ -115,6 +117,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.play('player-throw', false)
         this.melee.swing(this);
         this.lastMeleeTime = getTimeStamp();
+        this.setDefalutSize()
+        this.sliding = false
       }
     })
   }
@@ -132,7 +136,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.scene.input.keyboard.on('keyup-DOWN', () => {
       this.setDefalutSize()
       this.sliding = false
-
     })
   }
 

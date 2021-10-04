@@ -16,6 +16,9 @@ export default class Birdman extends Enemy {
     } else {
       this.body.setOffset(8, 22);
     }
+    if (this.isAnimPlaying('hit-birdman')) {
+      return
+    }
     this.play(`idle-birdman`, true);
 
   }

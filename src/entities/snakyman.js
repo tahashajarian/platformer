@@ -23,6 +23,7 @@ export default class Snakyman extends Enemy {
 
   update(time, delta) {
     super.update(time, delta);
+    if (!this.body) return
     if (this.body && this.body.velocity.x > 0) {
       this.facingRight = true
     } else {

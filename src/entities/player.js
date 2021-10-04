@@ -9,6 +9,9 @@ import {
   getTimeStamp
 } from '../utils/functions';
 
+import EventEmitter from '../events/emitter'
+import { EVENTS_TYPES } from '../types';
+
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'player');
@@ -34,7 +37,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.setDefalutSize()
     this.hasBeenHited = false;
     this.bounceVelocity = 250;
-    this.health = 100;
+    this.health = 10;
     this.totalHealth = 100;
     this.hb = new HealthBar(this.scene, 20, 15, this.health)
     this.projectiles = new Projectiles(this.scene, 'iceball')
@@ -57,14 +60,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.hasBeenHited || this.sliding) return;
+    if (this.hasBeenHited || this.sliding || !this.body) return;
+    if (this.getBounds().top > this.scene.config.height + 100) {
+      EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE)
+    }
     const {
       left,
       right,
-      down,
+      up,
       space
     } = this.cursor;
-    const isSpaceJustDown = Phaser.Input.Keyboard.JustDown(space);
+    const isSpaceJustDown = Phaser.Input.Keyboard.JustDown(space) || Phaser.Input.Keyboard.JustDown(up);
     const onFloor = this.body.onFloor();
 
 
@@ -159,6 +165,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   hited(player, enemy) {
     if (this.hasBeenHited) return;
+    this.health -= enemy.damage || 0
     this.hasBeenHited = true;
     this.bounceOff(enemy);
     this.tween()
@@ -167,10 +174,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.twining.stop();
       this.clearTint();
     })
-    this.health -= enemy.damage || 0
-    // this.health -= (this.totalHealth/10)
     this.hb.draw(this.health)
-    // debugger
+    if (this.health <= 0) {
+      this.hasBeenHited = false;
+      EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE);
+      return;
+    }
   }
 
   tween() {

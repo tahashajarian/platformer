@@ -3,6 +3,8 @@ import Player from '../entities/player';
 import Enemies from '../groups/enemies';
 import Collectables from '../groups/collectables';
 import Scorebar from '../hud/scorebar';
+import { EVENTS_TYPES } from '../types';
+import EventEmitter from '../events/emitter'
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -10,9 +12,10 @@ class PlayScene extends Phaser.Scene {
     this.config = config;
   }
 
-  create() {
+  create({gameStatus}) {
     const map = this.createMap();
     this.score = 0
+    if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
     this.createLayers(map);
     this.getPlayerZone(this.layers.playerZone);
     this.createPlayer(this.playerZone.start);
@@ -53,6 +56,12 @@ class PlayScene extends Phaser.Scene {
     this.createScoreBar()
   }
 
+  createEventHandler() {
+    EventEmitter.on(EVENTS_TYPES.PLAYER_LOOSE, () => {
+      this.scene.restart({ gameStatus: EVENTS_TYPES.PLAYER_LOOSE })
+    })
+  }
+  
   createScoreBar() {
     this.scoreBar = new Scorebar(this)
   }
@@ -102,9 +111,9 @@ class PlayScene extends Phaser.Scene {
       'platform_coliders',
       tileset,
     );
-    const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-2);
+    const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-3);
     const platforms = map.createStaticLayer('platforms', tileset);
-    const traps = map.createStaticLayer('traps', tileset);
+    const traps = map.createStaticLayer('traps', tileset).setDepth(-2);
     const playerZone = map.getObjectLayer('player_zone');
     const enemiesZone = map.getObjectLayer('enemies_zone');
     const collectables = map.getObjectLayer('collectables');

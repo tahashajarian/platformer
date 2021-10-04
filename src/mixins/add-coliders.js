@@ -1,9 +1,9 @@
 export default {
-  addColider(gameObject, callback) {
-    this.scene.physics.add.collider(this, gameObject, callback, null, this);
+  addColider(gameObject, callback, context) {
+    this.scene.physics.add.collider(this, gameObject, callback, null, context || this);
   },
-  addOverlap(gameObject, callback) {
-    this.scene.physics.add.overlap(this, gameObject, callback, null, this);
+  addOverlap(gameObject, callback, context) {
+    this.scene.physics.add.overlap(this, gameObject, callback, null, context || this);
   },
   bodyPositionDifferenceX: 0,
   firstRun: true,

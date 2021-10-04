@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../entities/player';
 import Enemies from '../groups/enemies';
+import Collectables from '../groups/collectables';
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -10,10 +11,12 @@ class PlayScene extends Phaser.Scene {
 
   create() {
     const map = this.createMap();
+    this.score = 0
     this.createLayers(map);
     this.getPlayerZone(this.layers.playerZone);
     this.createPlayer(this.playerZone.start);
     this.createEnemies(this.layers.enemiesZone);
+    this.createCollectables(this.layers.collectables);
     this.createColiders(this.player, [{
       object: this.layers.platformColiders,
       callback: this.player.touchedFloor,
@@ -39,28 +42,11 @@ class PlayScene extends Phaser.Scene {
     }]);
 
     this.player.melee.addOverlap(this.enemies, this.onSwordEnemy)
+    this.player.addOverlap(this.collectables, this.onCollectCollectables, this)
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
-    // add graphic
-    this.graphic = this.add.graphics();
-    this.line = new Phaser.Geom.Line();
-    this.graphic.lineStyle(1, 0x00ff00);
-
-    this.input.on('pointerdown', this.startDrawing, this);
-    this.input.on('pointerup', this.endDrawing, this);
-    this.isDrawing = false;
   }
 
-  startDrawing(pointer) {
-    this.line.x1 = pointer.worldX;
-    this.line.y1 = pointer.worldY;
-    this.isDrawing = true;
-    (this.tileHits || []).forEach((tile) => {
-      if (tile.index > -1) {
-        tile.setCollision(false);
-      }
-    });
-  }
 
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
@@ -81,24 +67,11 @@ class PlayScene extends Phaser.Scene {
   onHitPlaftormByProjectile(projectile) {
     projectile.hit('iceball_hit')
   }
-  
 
-
-  endDrawing() {
-    this.tileHits = this.layers.platforms.getTilesWithinShape(this.line);
-    this.tileHits.forEach((tile) => {
-      if (tile.index > -1) {
-        tile.setCollision(true);
-      }
-    });
-    this.isDrawing = false;
-    this.drawDebug();
-  }
-
-  drawDebug() {
-    this.layers.platforms.renderDebug(this.graphic, {
-      tileColor: null,
-    });
+  onCollectCollectables(player, collected) {
+    this.score += collected.score;
+    collected.disableBody(true, true)
+    console.log(this.score)
   }
 
   createMap() {
@@ -115,10 +88,11 @@ class PlayScene extends Phaser.Scene {
       'platform_coliders',
       tileset,
     );
-    const envoirement = map.createStaticLayer('envoirement', tileset);
+    const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-2);
     const platforms = map.createStaticLayer('platforms', tileset);
     const playerZone = map.getObjectLayer('player_zone');
     const enemiesZone = map.getObjectLayer('enemies_zone');
+    const collectables = map.getObjectLayer('collectables');
     // platformColiders.setCollisionByExclusion(-1, true)
     platformColiders.setCollisionByProperty({
       colider: true,
@@ -130,6 +104,7 @@ class PlayScene extends Phaser.Scene {
       platformColiders,
       playerZone,
       enemiesZone,
+      collectables
     };
   }
 
@@ -148,7 +123,11 @@ class PlayScene extends Phaser.Scene {
     });
   }
 
-  // eslint-disable-next-line class-methods-use-this
+  createCollectables(collectablesLayer) {
+    this.collectables = new Collectables(this)
+    this.collectables.addCollectableFromLayer(collectablesLayer)
+  }
+
   createColiders(item, coliders) {
     coliders.forEach((colid) => {
       item.addColider(colid.object, colid.callback);

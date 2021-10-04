@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="43">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="100" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="187">
  <editorsettings>
   <export target="map.json" format="json"/>
  </editorsettings>
@@ -24,6 +24,12 @@
    <properties>
     <property name="colider" type="bool" value="true"/>
    </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="4097" name="diamond" tilewidth="16" tileheight="14" tilecount="1" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="16" height="14" source="collectables/diamond.png"/>
   </tile>
  </tileset>
  <layer id="2" name="envoirement" width="100" height="40">
@@ -164,6 +170,203 @@
   </object>
   <object id="10" name="start" x="96" y="208">
    <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="collectables">
+  <properties>
+   <property name="score" type="int" value="7"/>
+   <property name="type" value="diamond"/>
+  </properties>
+  <object id="95" gid="4097" x="304" y="192" width="16" height="14">
+   <properties>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="156" gid="4097" x="336" y="192" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="157" gid="4097" x="368" y="192" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="158" gid="4097" x="400" y="192" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="8"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="159" gid="4097" x="240" y="368" width="18.2857" height="16">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="160" gid="4097" x="276.571" y="368" width="18.2857" height="16">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="161" gid="4097" x="313.143" y="368" width="18.2857" height="16">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="162" gid="4097" x="349.714" y="368" width="18.2857" height="16">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="163" gid="4097" x="1440" y="112" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="164" gid="4097" x="1472" y="112" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="165" gid="4097" x="1504" y="112" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="166" gid="4097" x="1536" y="112" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="167" gid="4097" x="1424" y="64" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="168" gid="4097" x="1456" y="64" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="169" gid="4097" x="1488" y="64" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="170" gid="4097" x="1520" y="64" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="171" gid="4097" x="1424" y="80" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="172" gid="4097" x="1456" y="80" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="173" gid="4097" x="1488" y="80" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="174" gid="4097" x="1520" y="80" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="175" gid="4097" x="1424" y="96" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="176" gid="4097" x="1456" y="96" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="177" gid="4097" x="1488" y="96" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="178" gid="4097" x="1520" y="96" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="179" gid="4097" x="848" y="240" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="180" gid="4097" x="880" y="240" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="181" gid="4097" x="912" y="240" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="182" gid="4097" x="944" y="240" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="183" gid="4097" x="1136" y="528" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="184" gid="4097" x="1168" y="528" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="185" gid="4097" x="1200" y="528" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
+  </object>
+  <object id="186" gid="4097" x="1232" y="528" width="16" height="14">
+   <properties>
+    <property name="score" type="int" value="2"/>
+    <property name="type" value="diamond"/>
+   </properties>
   </object>
  </objectgroup>
  <objectgroup id="5" name="enemies_zone">

@@ -40,7 +40,15 @@ export default (anims) => {
     frames: anims.generateFrameNumbers('player-slide', {
       start: 0, end: 2,
     }),
-    frameRate: 28,
+    frameRate: 18,
+    repeat: 0,
+  });
+  anims.create({
+    key: 'player-slide-reverse',
+    frames: anims.generateFrameNumbers('player-slide', {
+      start: 2, end: 0,
+    }),
+    frameRate: 18,
     repeat: 0,
   });
 };

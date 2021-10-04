@@ -58,5 +58,7 @@ export default (anims) => {
     frameRate: 18,
     repeat: 0,
   });
+
+
   
 };

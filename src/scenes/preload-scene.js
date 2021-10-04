@@ -9,6 +9,13 @@ class PreloadScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', 'assets/map.json');
     this.load.image('tileset', 'assets/main_lev_build_1.png');
     this.load.image('heart', 'assets/heart.png');
+    this.load.image('diamond', 'assets/collectables/diamond.png')
+    this.load.image('diamond_shine_1', 'assets/collectables/diamond_big_01.png')
+    this.load.image('diamond_shine_2', 'assets/collectables/diamond_big_02.png')
+    this.load.image('diamond_shine_3', 'assets/collectables/diamond_big_03.png')
+    this.load.image('diamond_shine_4', 'assets/collectables/diamond_big_04.png')
+    this.load.image('diamond_shine_5', 'assets/collectables/diamond_big_05.png')
+    this.load.image('diamond_shine_6', 'assets/collectables/diamond_big_06.png')
     this.load.spritesheet('player', 'assets/player/move_sprite_1.png', {
       frameWidth: 32, frameHeight: 38, spacing: 32,
     });

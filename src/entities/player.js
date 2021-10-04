@@ -86,7 +86,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
 
-    if (this.isAnimPlaying('player-throw') || this.isAnimPlaying('player-slide')) {
+    if (this.isAnimPlaying('player-throw') || this.isAnimPlaying('player-slide') || this.isAnimPlaying('player-slide-reverse')) {
       return
     }
 
@@ -134,6 +134,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.sliding = true
     })
     this.scene.input.keyboard.on('keyup-DOWN', () => {
+      this.play('player-slide-reverse', true)
       this.setDefalutSize()
       this.sliding = false
     })

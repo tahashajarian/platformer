@@ -140,25 +140,34 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     })
   }
 
-  bounceOff() {
-    if (this.body.touching.right) {
+  bounceOff(source) {
+    if (source.body) {
+      if (this.body.touching.right) {
+        this.setVelocity(-this.bounceVelocity, -this.bounceVelocity);
+      } else {
+        this.setVelocity(this.bounceVelocity, -this.bounceVelocity);
+      }
+      return
+    }
+    if (this.body.blocked.right) {
       this.setVelocity(-this.bounceVelocity, -this.bounceVelocity);
     } else {
       this.setVelocity(this.bounceVelocity, -this.bounceVelocity);
     }
+
   }
 
   hited(player, enemy) {
     if (this.hasBeenHited) return;
     this.hasBeenHited = true;
-    this.bounceOff();
+    this.bounceOff(enemy);
     this.tween()
     this.scene.time.delayedCall(1000, () => {
       this.hasBeenHited = false;
       this.twining.stop();
       this.clearTint();
     })
-    this.health -= enemy.damage
+    this.health -= enemy.damage || 0
     // this.health -= (this.totalHealth/10)
     this.hb.draw(this.health)
     // debugger

@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import Player from '../entities/player';
 import Enemies from '../groups/enemies';
 import Collectables from '../groups/collectables';
+import Scorebar from '../hud/scorebar';
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -26,7 +27,11 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.enemies.getProjectiles(),
       callback: this.hitedByProjectile,
-    }]);
+    }, {
+      object: this.layers.traps,
+      callback: this.hitedByTraps,
+    },
+    ]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,
@@ -45,8 +50,17 @@ class PlayScene extends Phaser.Scene {
     this.player.addOverlap(this.collectables, this.onCollectCollectables, this)
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
+    this.createScoreBar()
   }
 
+  createScoreBar() {
+    this.scoreBar = new Scorebar(this)
+  }
+
+  hitedByTraps(player, trap) {
+    trap.damage = trap.properties.damage
+    player.hited(player, trap)
+  }
 
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
@@ -71,7 +85,7 @@ class PlayScene extends Phaser.Scene {
   onCollectCollectables(player, collected) {
     this.score += collected.score;
     collected.disableBody(true, true)
-    console.log(this.score)
+    this.scoreBar.updateScore(this.score)
   }
 
   createMap() {
@@ -90,10 +104,11 @@ class PlayScene extends Phaser.Scene {
     );
     const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-2);
     const platforms = map.createStaticLayer('platforms', tileset);
+    const traps = map.createStaticLayer('traps', tileset);
     const playerZone = map.getObjectLayer('player_zone');
     const enemiesZone = map.getObjectLayer('enemies_zone');
     const collectables = map.getObjectLayer('collectables');
-    // platformColiders.setCollisionByExclusion(-1, true)
+    traps.setCollisionByExclusion(-1, true)
     platformColiders.setCollisionByProperty({
       colider: true,
     });
@@ -104,7 +119,8 @@ class PlayScene extends Phaser.Scene {
       platformColiders,
       playerZone,
       enemiesZone,
-      collectables
+      collectables,
+      traps
     };
   }
 

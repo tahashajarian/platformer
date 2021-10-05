@@ -6,8 +6,12 @@ class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON('map', 'assets/map.json');
+    this.load.tilemapTiledJSON('level_1', 'assets/level_1.json');
+    this.load.tilemapTiledJSON('level_2', 'assets/level_2.json');
     this.load.image('tileset', 'assets/main_lev_build_1.png');
+    this.load.image('bg_color_tile', 'assets/bg_color_tile.png');
+    this.load.image('bg_spikes', 'assets/bg_spikes.png')
+    this.load.image('bg_sky_play', 'assets/bg_sky_play.png')
     this.load.image('heart', 'assets/heart.png');
     this.load.image('diamond', 'assets/collectables/diamond.png')
     this.load.image('diamond_shine_1', 'assets/collectables/diamond_big_01.png')
@@ -49,9 +53,14 @@ class PreloadScene extends Phaser.Scene {
     this.load.spritesheet('sword', 'assets/weapons/sword_sheet_1.png', {
       frameWidth: 52, frameHeight: 32, spacing: 16,
     });
+
+    this.load.once('complete', () => {
+      this.startGame()
+    })
   }
 
-  create() {
+  startGame() {
+    this.registry.set('level', 1)
     this.scene.start('PlayScene');
   }
 }

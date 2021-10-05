@@ -37,7 +37,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.setDefalutSize()
     this.hasBeenHited = false;
     this.bounceVelocity = 250;
-    this.health = 10;
+    this.health = 50;
     this.totalHealth = 100;
     this.hb = new HealthBar(this.scene, 20, 15, this.health)
     this.projectiles = new Projectiles(this.scene, 'iceball')

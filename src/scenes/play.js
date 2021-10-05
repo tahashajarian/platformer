@@ -12,14 +12,15 @@ class PlayScene extends Phaser.Scene {
     this.config = config;
   }
 
-  create({gameStatus}) {
-    const map = this.createMap();
+  create({ gameStatus }) {
     this.score = 0
+    this.createMap();
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
-    this.createLayers(map);
+    this.createLayers(this.map);
     this.getPlayerZone(this.layers.playerZone);
     this.createPlayer(this.playerZone.start);
     this.createEnemies(this.layers.enemiesZone);
+    this.createBG();
     this.createCollectables(this.layers.collectables);
     this.createColiders(this.player, [{
       object: this.layers.platformColiders,
@@ -61,9 +62,22 @@ class PlayScene extends Phaser.Scene {
       this.scene.restart({ gameStatus: EVENTS_TYPES.PLAYER_LOOSE })
     })
   }
-  
+
   createScoreBar() {
     this.scoreBar = new Scorebar(this)
+  }
+
+  createBG() {
+    const bgObject = this.map.getObjectLayer('bg_spikes').objects[0]
+    this.BgSpikes = this.add.tileSprite(bgObject.x, bgObject.y, this.config.width, bgObject.height, 'bg_spikes')
+      .setOrigin(0, 1)
+      .setDepth(-10)
+      .setScrollFactor(0, 1)
+
+    this.BGSkyPlay = this.add.tileSprite(0, 0, this.config.width, 180, 'bg_sky_play')
+      .setOrigin(0, 0)
+      .setDepth(-11)
+      .setScrollFactor(0, 1)
   }
 
   hitedByTraps(player, trap) {
@@ -98,21 +112,23 @@ class PlayScene extends Phaser.Scene {
   }
 
   createMap() {
-    const map = this.make.tilemap({
-      key: 'map',
+    this.map = this.make.tilemap({
+      key: `level_${this.getCurrentLevel()}`,
     });
-    map.addTilesetImage('tileset', 'tileset');
-    return map;
+    this.map.addTilesetImage('tileset', 'tileset');
+    this.map.addTilesetImage('bg_color_tile', 'bg_color_tile');
   }
 
   createLayers(map) {
     const tileset = map.getTileset('tileset');
+    const bg_color_tile = map.getTileset('bg_color_tile')
     const platformColiders = map.createStaticLayer(
       'platform_coliders',
       tileset,
     );
     const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-3);
     const platforms = map.createStaticLayer('platforms', tileset);
+    map.createStaticLayer('bg_color_tile', bg_color_tile).setDepth(-12);
     const traps = map.createStaticLayer('traps', tileset).setDepth(-2);
     const playerZone = map.getObjectLayer('player_zone');
     const enemiesZone = map.getObjectLayer('enemies_zone');
@@ -188,18 +204,20 @@ class PlayScene extends Phaser.Scene {
 
     const elOverlap = this.physics.add.overlap(this.player, endLevel, () => {
       elOverlap.active = false;
+      this.registry.inc('level');
+      this.scene.restart({ gameStatus: "LEVEL_COMPELETED" })
     });
   }
 
-  update() {
-    if (this.isDrawing) {
-      const pointer = this.input.activePointer;
-      this.line.x2 = pointer.worldX;
-      this.line.y2 = pointer.worldY;
-      this.graphic.clear();
-      this.graphic.strokeLineShape(this.line);
-    }
+  getCurrentLevel() {
+    return this.registry.get('level') || 1
   }
+
+  update() {
+    this.BgSpikes.tilePositionX = this.cameras.main.scrollX * 0.3
+    this.BGSkyPlay.tilePositionX = this.cameras.main.scrollX * 0.1
+  }
+
 }
 
 export default PlayScene;

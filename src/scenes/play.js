@@ -170,7 +170,7 @@ class PlayScene extends Phaser.Scene {
     const platformColiders = map.createStaticLayer(
       'platform_coliders',
       tileset,
-    );
+    ).setAlpha(0);
     const envoirement = map.createStaticLayer('envoirement', tileset).setDepth(-3);
     const platforms = map.createStaticLayer('platforms', tileset);
     map.createStaticLayer('bg_color_tile', bg_color_tile).setDepth(-12);

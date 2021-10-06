@@ -14,6 +14,7 @@ export default class HealthBar {
 		scene.add.existing(this.bar);
 		this.draw(this.health);
 		this.bar.setScrollFactor(0, 0)
+		this.bar.setDepth(10)
 	}
 
 	draw(health) {

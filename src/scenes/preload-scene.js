@@ -14,6 +14,8 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('bg_spikes', 'assets/bg_spikes.png')
     this.load.image('bg_sky_play', 'assets/bg_sky_play.png')
     this.load.image('heart', 'assets/heart.png');
+    this.load.image('arrow', 'assets/arrow.png');
+
     this.load.image('diamond', 'assets/collectables/diamond.png')
     this.load.image('diamond_shine_1', 'assets/collectables/diamond_big_01.png')
     this.load.image('diamond_shine_2', 'assets/collectables/diamond_big_02.png')

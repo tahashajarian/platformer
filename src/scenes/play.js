@@ -27,6 +27,15 @@ class PlayScene extends Phaser.Scene {
     this.createEnemies(this.layers.enemiesZone);
     this.createBG();
     this.createCollectables(this.layers.collectables);
+    this.createAllCoillisions()
+    this.setupfollowingCameraOn();
+    this.createEndLevel(this.playerZone.end);
+    this.createScoreBar()
+    this.createBackButton();
+    this.listenToEvents()
+  }
+
+  createAllCoillisions() {
     this.createColiders(this.player, [{
       object: this.layers.platformColiders,
       callback: this.player.touchedFloor,
@@ -39,7 +48,7 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.layers.traps,
       callback: this.hitedByTraps,
-    }, ]);
+    },]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,
@@ -53,15 +62,8 @@ class PlayScene extends Phaser.Scene {
       object: this.layers.platformColiders,
       callback: this.onHitPlaftormByProjectile
     }]);
-
     this.player.melee.addOverlap(this.enemies, this.onSwordEnemy)
     this.player.addOverlap(this.collectables, this.onCollectCollectables, this)
-    this.setupfollowingCameraOn();
-    this.createEndLevel(this.playerZone.end);
-    this.createScoreBar()
-    this.createBackButton();
-
-    this.listenToEvents()
   }
 
 
@@ -71,19 +73,16 @@ class PlayScene extends Phaser.Scene {
         this.physics.resume();
       });
     }
-
-    if (!this.escPressListener) {
-      this.escPressListener = this.input.keyboard.on('keydown-ESC', () => {
-        this.pauseGame();
-      })
-    }
+    this.escPressListener = this.input.keyboard.on('keydown-ESC', () => {
+      this.pauseGame();
+    })
   }
 
   createBackButton() {
     const pauseButton = this.add
-      .image(this.config.width - 15, this.config.height - 15, "pause")
+      .image(15, 15, "pause")
       .setInteractive()
-      .setOrigin(1)
+      .setOrigin(0)
       .setScale(3);
     pauseButton.setScrollFactor(0)
 

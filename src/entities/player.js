@@ -11,6 +11,7 @@ import {
 
 import EventEmitter from '../events/emitter'
 import { EVENTS_TYPES } from '../types';
+import InputsHandler from '../inputs';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -46,6 +47,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.facingRight = true;
     this.handleAttacks();
     this.handleMovments();
+    this.inputHandlers = new InputsHandler(this.scene, this.cursor)
+    if (this.inputHandlers.isMobile) {
+      this.inputHandlers.bindEvents({
+        down_down: () => this.playerSlideDown(),
+        down_up: () => this.playerSlideUp(),
+        a: () => this.playerMeleeFire(),
+        b: () => this.playerProjectileFire(),
+      })
+    }
   }
 
   initEvents() {
@@ -111,39 +121,55 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   handleAttacks() {
     this.scene.input.keyboard.on('keydown-F', () => {
-      if (!this.projectiles.isHot) {
-        this.play('player-throw', false);
-        this.projectiles.fireProjectile(this, 'iceball');
-        this.setDefalutSize()
-        this.sliding = false
-      }
+      this.playerProjectileFire()
     })
     this.scene.input.keyboard.on('keydown-E', () => {
-      if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
-        this.play('player-throw', false)
-        this.melee.swing(this);
-        this.lastMeleeTime = getTimeStamp();
-        this.setDefalutSize()
-        this.sliding = false
-      }
+      this.playerMeleeFire()
     })
+  }
+
+  playerMeleeFire() {
+    if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
+      this.play('player-throw', false)
+      this.melee.swing(this);
+      this.lastMeleeTime = getTimeStamp();
+      this.setDefalutSize()
+      this.sliding = false
+    }
+  }
+
+  playerProjectileFire() {
+    if (!this.projectiles.isHot) {
+      this.play('player-throw', false);
+      this.projectiles.fireProjectile(this, 'iceball');
+      this.setDefalutSize()
+      this.sliding = false
+    }
   }
 
   handleMovments() {
     this.scene.input.keyboard.on('keydown-DOWN', () => {
-      if (!this.body.onFloor()) return
-
-      this.play('player-slide', true)
-      this.body.setSize(20, this.height / 3)
-      this.setOffset(7, this.height - (this.height / 3))
-      this.setVelocityX(0)
-      this.sliding = true
+      this.playerSlideDown()
     })
     this.scene.input.keyboard.on('keyup-DOWN', () => {
-      this.play('player-slide-reverse', true)
-      this.setDefalutSize()
-      this.sliding = false
+      this.playerSlideUp()
     })
+  }
+
+  playerSlideDown() {
+    if (!this.body.onFloor()) return
+    this.play('player-slide', true)
+    this.body.setSize(20, this.height / 3)
+    this.setOffset(7, this.height - (this.height / 3))
+    this.setVelocityX(0)
+    this.sliding = true
+  }
+
+  playerSlideUp() {
+    if (!this.body.onFloor()) return
+    this.play('player-slide-reverse', true)
+    this.setDefalutSize()
+    this.sliding = false
   }
 
   bounceOff(source) {

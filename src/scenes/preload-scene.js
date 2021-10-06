@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { SECENE_NAMES } from '../types';
 
 class PreloadScene extends Phaser.Scene {
   constructor() {
@@ -31,6 +32,10 @@ class PreloadScene extends Phaser.Scene {
     });
     this.load.image('iceball_1', 'assets/weapons/iceball_001.png');
     this.load.image('iceball_2', 'assets/weapons/iceball_002.png');
+    this.load.image('cloud', 'assets/cloud.png');
+    this.load.image('back', 'assets/back.png');
+    this.load.image('pause', 'assets/pause.png');
+    this.load.image('bg_menu', 'assets/bg_menu.png');
     this.load.image('fireball_1', 'assets/weapons/improved_fireball_001.png');
     this.load.image('fireball_2', 'assets/weapons/improved_fireball_002.png');
     this.load.image('fireball_3', 'assets/weapons/improved_fireball_003.png');
@@ -61,7 +66,8 @@ class PreloadScene extends Phaser.Scene {
 
   startGame() {
     this.registry.set('level', 1)
-    this.scene.start('PlayScene');
+    this.registry.set('unlockeds_levels', 1)
+    this.scene.start(SECENE_NAMES.MENU_SCENE);
   }
 }
 

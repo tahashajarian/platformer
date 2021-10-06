@@ -1,6 +1,9 @@
 import Phaser from 'phaser';
 import PlayScene from './scenes/play';
 import PreloadScene from './scenes/preload-scene';
+import MenuScene from './scenes/menu-scene'
+import LevelScene from './scenes/level-scene';
+import PauseScene from './scenes/pause-scene';
 
 const WIDTH = document.body.offsetWidth;
 const HEIGHT = 600;
@@ -14,7 +17,7 @@ const SHARED_CONFIG = {
   zoom: ZOOM,
 };
 
-const scenes = [PreloadScene, PlayScene];
+const scenes = [PreloadScene, MenuScene, LevelScene, PlayScene, PauseScene];
 const initScenes = () => scenes.map((Scene) => new Scene(SHARED_CONFIG));
 
 const config = {

@@ -20,7 +20,6 @@ export default class Birdman extends Enemy {
       return
     }
     this.play(`idle-birdman`, true);
-
   }
 
 }

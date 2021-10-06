@@ -3,7 +3,10 @@ import Player from '../entities/player';
 import Enemies from '../groups/enemies';
 import Collectables from '../groups/collectables';
 import Scorebar from '../hud/scorebar';
-import { EVENTS_TYPES } from '../types';
+import {
+  EVENTS_TYPES,
+  SECENE_NAMES
+} from '../types';
 import EventEmitter from '../events/emitter'
 
 class PlayScene extends Phaser.Scene {
@@ -12,7 +15,9 @@ class PlayScene extends Phaser.Scene {
     this.config = config;
   }
 
-  create({ gameStatus }) {
+  create({
+    gameStatus
+  }) {
     this.score = 0
     this.createMap();
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
@@ -34,8 +39,7 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.layers.traps,
       callback: this.hitedByTraps,
-    },
-    ]);
+    }, ]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,
@@ -55,11 +59,52 @@ class PlayScene extends Phaser.Scene {
     this.setupfollowingCameraOn();
     this.createEndLevel(this.playerZone.end);
     this.createScoreBar()
+    this.createBackButton();
+
+    this.listenToEvents()
   }
+
+
+  listenToEvents() {
+    if (!this.eventListener) {
+      this.eventListener = this.events.on("resume", () => {
+        this.physics.resume();
+      });
+    }
+
+    if (!this.escPressListener) {
+      this.escPressListener = this.input.keyboard.on('keydown-ESC', () => {
+        this.pauseGame();
+      })
+    }
+  }
+
+  createBackButton() {
+    const pauseButton = this.add
+      .image(this.config.width - 15, this.config.height - 15, "pause")
+      .setInteractive()
+      .setOrigin(1)
+      .setScale(3);
+    pauseButton.setScrollFactor(0)
+
+    pauseButton.on("pointerdown", () => {
+      this.pauseGame();
+    });
+  }
+
+  pauseGame() {
+    this.isPaused = true;
+    this.physics.pause();
+    this.scene.pause();
+    this.scene.launch(SECENE_NAMES.PAUSE_SCENE);
+  }
+
 
   createEventHandler() {
     EventEmitter.on(EVENTS_TYPES.PLAYER_LOOSE, () => {
-      this.scene.restart({ gameStatus: EVENTS_TYPES.PLAYER_LOOSE })
+      this.scene.restart({
+        gameStatus: EVENTS_TYPES.PLAYER_LOOSE
+      })
     })
   }
 
@@ -205,7 +250,14 @@ class PlayScene extends Phaser.Scene {
     const elOverlap = this.physics.add.overlap(this.player, endLevel, () => {
       elOverlap.active = false;
       this.registry.inc('level');
-      this.scene.restart({ gameStatus: "LEVEL_COMPELETED" })
+      const unlockeds_levels = this.registry.get('unlockeds_levels');
+      if (this.getCurrentLevel() + 1 >= unlockeds_levels) {
+        this.registry.inc('unlockeds_levels')
+      }
+      this.scene.restart({
+        gameStatus: "LEVEL_COMPELETED"
+      })
+
     });
   }
 

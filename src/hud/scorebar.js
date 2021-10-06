@@ -10,6 +10,7 @@ export default class Scorebar extends Phaser.GameObjects.Container {
     this.fontColor = '#fff'
     this.margin = 5
     this.setup()
+    this.setDepth(10)
   }
 
   setup() {

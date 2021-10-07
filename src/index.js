@@ -5,15 +5,17 @@ import MenuScene from './scenes/menu-scene'
 import LevelScene from './scenes/level-scene';
 import PauseScene from './scenes/pause-scene';
 
-const WIDTH = document.body.offsetWidth;
-const HEIGHT = 600;
+const WIDTH = innerWidth
+const HEIGHT = innerHeight;
 const MAP_WIDTH = 1600;
+const MAP_HEIGHT = 1280;
 const ZOOM = 1;
 
 const SHARED_CONFIG = {
   width: WIDTH,
   height: HEIGHT,
   mapOffset: MAP_WIDTH > WIDTH ? MAP_WIDTH - WIDTH : 0,
+  mapOffsetHeight: MAP_HEIGHT > HEIGHT ? MAP_HEIGHT - HEIGHT : 0,
   zoom: ZOOM,
 };
 

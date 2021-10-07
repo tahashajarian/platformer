@@ -14,7 +14,7 @@ class InputsHandler extends Phaser.GameObjects.Container {
 
   init() {
     this.isMobile = detectDeviceType();
-    if (this.isMobile || true) {
+    if (this.isMobile) {
       this.arrowsContainer = this.createArrowButtons()
       this.setInterActiveArrowConter()
       // this.actionsButton = this.createActionsButton()

@@ -40,7 +40,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.bounceVelocity = 250;
     this.health = 50;
     this.totalHealth = 100;
-    this.hb = new HealthBar(this.scene, 20, 15, this.health)
+    this.hb = new HealthBar(this.scene, this.x, this.y, this.health)
     this.projectiles = new Projectiles(this.scene, 'iceball')
     this.melee = new Melee(this.scene, 0, 0, 'sword')
     this.lastMeleeTime = getTimeStamp();
@@ -71,7 +71,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   update() {
     if (this.hasBeenHited || this.sliding || !this.body) return;
-    if (this.getBounds().top > this.scene.config.height + 100) {
+    if (this.getBounds().top >= this.scene.config.height + this.scene.config.mapOffsetHeight) {
       EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE)
     }
     const {
@@ -97,7 +97,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (isSpaceJustDown && (onFloor || this.jumpCount < 1)) {
-      console.log('player jumped')
       this.setVelocityY(-this.playerJump);
       this.jumpCount += 1;
     }

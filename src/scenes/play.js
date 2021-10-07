@@ -80,7 +80,7 @@ class PlayScene extends Phaser.Scene {
 
   createBackButton() {
     const pauseButton = this.add
-      .image(15, 15, "pause")
+      .image(15, 15, "pause").setDepth(16)
       .setInteractive()
       .setOrigin(0)
       .setScale(3);
@@ -224,10 +224,11 @@ class PlayScene extends Phaser.Scene {
       height,
       width,
       mapOffset,
+      mapOffsetHeight,
       zoom,
     } = this.config;
-    this.physics.world.setBounds(0, 0, width + mapOffset, height + 200);
-    this.cameras.main.setBounds(0, 0, width + mapOffset, height).setZoom(zoom);
+    this.physics.world.setBounds(0, 0, width + mapOffset, height + mapOffsetHeight + 100);
+    this.cameras.main.setBounds(0, 0, width + mapOffset, height + mapOffsetHeight).setZoom(zoom);
     this.cameras.main.startFollow(this.player);
   }
 

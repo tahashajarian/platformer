@@ -52,8 +52,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.inputHandlers.bindEvents({
         down_down: () => this.playerSlideDown(),
         down_up: () => this.playerSlideUp(),
-        a: () => this.playerMeleeFire(),
-        b: () => this.playerProjectileFire(),
+        oneTap: () => this.playerMeleeFire(),
+        dbTap: () => this.playerProjectileFire(),
       })
     }
   }
@@ -97,6 +97,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (isSpaceJustDown && (onFloor || this.jumpCount < 1)) {
+      console.log('player jumped')
       this.setVelocityY(-this.playerJump);
       this.jumpCount += 1;
     }

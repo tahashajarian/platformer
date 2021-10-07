@@ -24,7 +24,7 @@ class BaseScene extends Phaser.Scene {
 
   create() {
     this.bg = this.add.image(0, 0, "bg_menu").setOrigin(0);
-    this.bg.setScale(2, 3)
+    this.bg.setScale(4, 4)
     // this.bg.setDisplaySize(this.config.width, this.config.height);
     // const graphics = this.add.graphics();
     // graphics.fillGradientStyle(0x00008b, 0x00008b, 0x87cefa, 0x87cefa, 1);

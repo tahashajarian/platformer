@@ -56,6 +56,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         dbTap: () => this.playerProjectileFire(),
       })
     }
+
   }
 
   initEvents() {
@@ -70,6 +71,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
+    this.hb.draw(this)
     if (this.hasBeenHited || this.sliding || !this.body) return;
     if (this.getBounds().top >= this.scene.config.height + this.scene.config.mapOffsetHeight) {
       EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE)
@@ -117,6 +119,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     } else {
       this.play('jump', true);
     }
+
   }
 
   handleAttacks() {
@@ -200,7 +203,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.twining.stop();
       this.clearTint();
     })
-    this.hb.draw(this.health)
     if (this.health <= 0) {
       this.hasBeenHited = false;
       EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE);

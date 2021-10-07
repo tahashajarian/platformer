@@ -32,10 +32,11 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     this.rayGraphic = this.scene.add.graphics({ lineStyle: { width: 2, color: 0xff0000 } });
     this.damage = 10;
     this.hited = false;
+    this.health = 30
   }
 
   update() {
-    if (this.getBounds().bottom > 800) {
+    if (this.getBounds().top > this.scene.config.height + this.scene.config.offsetHeight) {
       this.setActive(false)
       this.scene.events.removeListener(Phaser.Scenes.Events.UPDATE, this.update, this)
       this.rayGraphic.clear();
@@ -71,6 +72,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
       this.setVelocity(0, -200)
       this.body.checkCollision.none = true;
       this.setCollideWorldBounds(false)
+      this.hb.clear()
     }
   }
 }

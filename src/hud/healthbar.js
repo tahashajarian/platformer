@@ -8,20 +8,21 @@ export default class HealthBar {
 		this.health = health;
 		this.scene = scene;
 		this.size = {
-			width: 250,
-			height: 4,
+			width: 40,
+			height: 3,
 		};
 		scene.add.existing(this.bar);
-		this.draw(this.health);
-		this.bar.setScrollFactor(0, 0)
+		this.draw({ health: this.health, x, y, width: 0, height: 0 });
+		// this.bar.setScrollFactor(0, 0)
 		this.bar.setDepth(10)
 	}
 
-	draw(health) {
+	draw({ health, x, y, width, height }) {
+
 		if (health < 0) health = 0
 		this.bar.clear();
 		this.bar.fillStyle(0x777777);
-		this.bar.fillRect(this.x, this.y, this.size.width, this.size.height)
+		this.bar.fillRect(x - width / 2, y - (height + 10), this.size.width, this.size.height)
 		let color;
 		const value = health / this.health
 		if (value > 0.5) {
@@ -32,6 +33,10 @@ export default class HealthBar {
 			color = 0xec0b0b;
 		}
 		this.bar.fillStyle(color);
-		this.bar.fillRect(this.x, this.y, this.size.width * value, this.size.height)
+		this.bar.fillRect(x - width / 2, y - (height + 10), this.size.width * value, this.size.height)
+	}
+
+	clear() {
+		this.bar.destroy();
 	}
 }

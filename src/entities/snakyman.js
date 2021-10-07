@@ -1,6 +1,7 @@
 import Enemy from './enemy';
 import Projectiles from '../attaks/projectiles';
 import isAnimPlaying from '../mixins/anims';
+import HealthBar from '../hud/healthbar';
 
 
 export default class Snakyman extends Enemy {
@@ -15,6 +16,7 @@ export default class Snakyman extends Enemy {
     this.attakDelay = this.getAttakDelay();
     this.facingRight = true;
     Object.assign(this, isAnimPlaying);
+    this.hb = new HealthBar(scene, x, y, this.health)
   }
 
   getAttakDelay() {
@@ -23,6 +25,7 @@ export default class Snakyman extends Enemy {
 
   update(time, delta) {
     super.update(time, delta);
+    this.hb.draw(this)
     if (!this.body) return
     if (this.body && this.body.velocity.x > 0) {
       this.facingRight = true

@@ -57,12 +57,14 @@ class InputsHandler {
 
 
   checkShoot({ pointerDown: start, pointerUp: end, previousTap, currentTap }) {
+    
     const xDistance = start.x - end.x
     const yDistance = start.y - end.y;
     const xDistanceAbs = Math.abs(xDistance)
     const yDistanceAbs = Math.abs(yDistance)
     this.delayDblClick = 200
     if (xDistanceAbs <= 15 && yDistanceAbs <= 15) {
+      this.cursor.down.isDown = false
       if (currentTap - previousTap > this.delayDblClick) {
         this.timeOutToOnTap = setTimeout(() => {
           this.oneTap();
@@ -92,27 +94,30 @@ class InputsHandler {
           this.down_down()
         }
         this.cursor.down.isDown = true
+        this.causeDown = id
 
       } else {
         if (!this.cursor.up.isDown) {
           this.cursor.up._justDown = true
         }
         this.cursor.up.isDown = true
-        this.causeMove = id
+        this.causeUp = id
       }
     }
   }
 
   setAllCursorFalse(cause) {
-    if (this.causeMove === cause) {
+    if (this.causeUp === cause) {
       this.cursor.up.isDown = false
     }
-    if (this.cursor.down.isDown) {
-      this.down_up()
+    if (this.causeDown === cause) {
+      if (this.cursor.down.isDown) {
+        this.down_up()
+      }
+      this.cursor.down.isDown = false
     }
     this.cursor.right.isDown = false
     this.cursor.left.isDown = false
-    this.cursor.down.isDown = false
   }
 
 }

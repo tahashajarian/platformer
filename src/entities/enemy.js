@@ -11,6 +11,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     this.init();
     this.initEvents();
+    this.scene = scene
   }
 
   initEvents() {
@@ -36,7 +37,7 @@ export default class Enemy extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    if (this.getBounds().top > this.scene.config.height + this.scene.config.offsetHeight) {
+    if (this.getBounds().top > 1500) {
       this.setActive(false)
       this.scene.events.removeListener(Phaser.Scenes.Events.UPDATE, this.update, this)
       this.rayGraphic.clear();

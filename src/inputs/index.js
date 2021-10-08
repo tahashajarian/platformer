@@ -1,27 +1,19 @@
-import Phaser from "phaser";
 import { detectDeviceType, getTimeStamp } from "../utils/functions";
 
-class InputsHandler extends Phaser.GameObjects.Container {
+class InputsHandler {
   constructor(scene, cursor) {
-    super(scene)
-    scene.add.existing(this)
-    this.setScrollFactor(0);
+    this.cursor = cursor;
+    this.scene = scene;
     this.init();
-    this.backgroundColor = 0xff00ff
-    this.setDepth(12)
-    this.cursor = cursor
   }
 
   init() {
     this.isMobile = detectDeviceType();
     if (this.isMobile) {
-      this.arrowsContainer = this.createArrowButtons()
-      this.setInterActiveArrowConter()
-      // this.actionsButton = this.createActionsButton()
-      this.add([this.arrowsContainer])
-      this.fixPositon();
+      this.handlePointers()
     }
-
+    this.pointers = { 1: {}, 2: {} }
+    this.scene.input.addPointer(2)
   }
 
 
@@ -37,56 +29,41 @@ class InputsHandler extends Phaser.GameObjects.Container {
     this.dbTap = dbTap
   }
 
-  createArrowButtons() {
-    const { width, height } = this.scene.config
-    const arrowsContainer = this.scene.add.text(0, 0, '').setOrigin(0).setSize(width, height);
-    arrowsContainer.setAlpha(0.5)
-    return arrowsContainer
-  }
+  handlePointers() {
 
-
-  setInterActiveArrowConter() {
-    this.arrowsContainer.setInteractive().setDepth(15);
-    this.arrowsContainer.setScrollFactor(0, 0);
-    this.arrowsContainer.on('pointerdown', (e) => {
-      this.pointerDown = { x: e.downX, y: e.downY };
-      this.isPointerDown = true
+    this.scene.input.on('pointerdown', (e) => {
+      this.pointers[e.id].pointerDown = { x: e.downX, y: e.downY };
+      this.pointers[e.id].isDown = true;
     })
-    this.arrowsContainer.on('pointermove', (e) => {
-      this.pointerMove = { x: e.x, y: e.y };
-      if (this.isPointerDown) {
-        this.detectMovement(this.pointerDown, this.pointerMove);
+    this.scene.input.on('pointermove', (e) => {
+      this.pointers[e.id].move = { x: e.x, y: e.y, };
+      if (this.pointers[e.id].isDown) {
+        this.detectMovement(this.pointers[e.id], e.id);
       }
     })
-    this.currentTap = 0;
-    this.arrowsContainer.on('pointerup', (e) => {
-      this.isPointerDown = false
-      this.previousTap = this.currentTap;
-      this.currentTap = getTimeStamp()
-      this.pointerUp = { x: e.upX, y: e.upY };
-      this.setAllCursorFalse();
-      this.checkShoot(this.pointerDown, this.pointerUp);
+    this.scene.input.on('pointerup', (e) => {
+      this.pointers[e.id].isDown = false;
+      this.pointers[e.id].previousTap = this.pointers[e.id].currentTap;
+      this.pointers[e.id].currentTap = getTimeStamp()
+      this.pointers[e.id].pointerUp = { x: e.upX, y: e.upY, };
+      this.checkShoot(this.pointers[e.id]);
+      this.setAllCursorFalse(e.id);
     })
-    this.arrowsContainer.on('pointerout', (e) => {
-      this.isPointerDown = false
-      this.setAllCursorFalse();
+    this.scene.input.on('pointerout', (e) => {
+      this.pointers[e.id].isDown = false;
+      this.setAllCursorFalse(e.id);
     })
   }
 
 
-  fixPositon() {
-    this.setPosition(0, 0)
-    this.width = this.scene.config.width
-  }
-
-  checkShoot(start, end) {
+  checkShoot({ pointerDown: start, pointerUp: end, previousTap, currentTap }) {
     const xDistance = start.x - end.x
     const yDistance = start.y - end.y;
     const xDistanceAbs = Math.abs(xDistance)
     const yDistanceAbs = Math.abs(yDistance)
     this.delayDblClick = 200
     if (xDistanceAbs <= 15 && yDistanceAbs <= 15) {
-      if (this.currentTap - this.previousTap > this.delayDblClick) {
+      if (currentTap - previousTap > this.delayDblClick) {
         this.timeOutToOnTap = setTimeout(() => {
           this.oneTap();
         }, this.delayDblClick);
@@ -97,8 +74,7 @@ class InputsHandler extends Phaser.GameObjects.Container {
     }
   }
 
-  detectMovement(start, move) {
-    // this.setAllCursorFalse()
+  detectMovement({ pointerDown: start, move }, id) {
     const xDistance = start.x - move.x
     const yDistance = start.y - move.y;
     const xDistanceAbs = Math.abs(xDistance)
@@ -110,29 +86,33 @@ class InputsHandler extends Phaser.GameObjects.Container {
         this.cursor.right.isDown = true
       }
     }
-    if (yDistanceAbs > 50) {
+    if (yDistanceAbs > 80) {
       if (yDistance < 0) {
         if (!this.cursor.down.isDown) {
           this.down_down()
         }
         this.cursor.down.isDown = true
+
       } else {
         if (!this.cursor.up.isDown) {
           this.cursor.up._justDown = true
         }
         this.cursor.up.isDown = true
+        this.causeMove = id
       }
     }
   }
 
-  setAllCursorFalse() {
+  setAllCursorFalse(cause) {
+    if (this.causeMove === cause) {
+      this.cursor.up.isDown = false
+    }
     if (this.cursor.down.isDown) {
       this.down_up()
     }
     this.cursor.right.isDown = false
     this.cursor.left.isDown = false
     this.cursor.down.isDown = false
-    this.cursor.up.isDown = false
   }
 
 }

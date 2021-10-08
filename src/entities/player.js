@@ -56,7 +56,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         dbTap: () => this.playerProjectileFire(),
       })
     }
-
+    // this.scene.input.on('pointerdown' , () => {
+    //   console.log('fuck you phasr')
+    // })
   }
 
   initEvents() {

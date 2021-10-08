@@ -171,7 +171,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   playerSlideUp() {
-    if (!this.body.onFloor()) return
+    if (!this.body.onFloor() || !this.sliding) return
     this.play('player-slide-reverse', true)
     this.setDefalutSize()
     this.sliding = false

@@ -162,7 +162,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   playerSlideDown() {
-    if (!this.body.onFloor()) return
+    if (!this.body.onFloor() || this.sliding) return
     this.play('player-slide', true)
     this.body.setSize(20, this.height / 3)
     this.setOffset(7, this.height - (this.height / 3))

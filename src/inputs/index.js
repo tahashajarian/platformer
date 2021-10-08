@@ -64,7 +64,6 @@ class InputsHandler {
     const yDistanceAbs = Math.abs(yDistance)
     this.delayDblClick = 200
     if (xDistanceAbs <= 15 && yDistanceAbs <= 15) {
-      this.cursor.down.isDown = false
       if (currentTap - previousTap > this.delayDblClick) {
         this.timeOutToOnTap = setTimeout(() => {
           this.oneTap();

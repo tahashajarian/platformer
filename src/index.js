@@ -7,7 +7,7 @@ import PauseScene from './scenes/pause-scene';
 
 const WIDTH = innerWidth
 const HEIGHT = innerHeight;
-const MAP_WIDTH = 1600;
+const MAP_WIDTH = 1920;
 const MAP_HEIGHT = 1280;
 const ZOOM = 1;
 

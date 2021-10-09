@@ -8,6 +8,7 @@ import {
   SECENE_NAMES
 } from '../types';
 import EventEmitter from '../events/emitter'
+import initAnimations from '../animations/door-anim'
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -33,6 +34,7 @@ class PlayScene extends Phaser.Scene {
     this.createScoreBar()
     this.createBackButton();
     this.listenToEvents()
+    initAnimations(this.anims)
   }
 
   createAllCoillisions() {
@@ -48,7 +50,7 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.layers.traps,
       callback: this.hitedByTraps,
-    },]);
+    }, ]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,
@@ -195,6 +197,13 @@ class PlayScene extends Phaser.Scene {
 
   createPlayer(zone) {
     this.player = new Player(this, zone.x, zone.y);
+    const startLevel = this.physics.add
+      .sprite(zone.x - 30, zone.y, 'door')
+      // .setAlpha(0)
+      // .setSize(5, 200)
+      .setOrigin(0, 1).setDepth(-1);
+    // startLevel.active = false;
+    startLevel.play('close-door', false)
   }
 
   createEnemies(enemiesZone) {
@@ -241,23 +250,13 @@ class PlayScene extends Phaser.Scene {
   }
 
   createEndLevel(end) {
-    const endLevel = this.physics.add
-      .sprite(end.x, end.y, 'end')
-      .setAlpha(0)
-      .setSize(5, 200)
-      .setOrigin(0.5, 1);
-
-    const elOverlap = this.physics.add.overlap(this.player, endLevel, () => {
-      elOverlap.active = false;
-      this.registry.inc('level');
-      const unlockeds_levels = this.registry.get('unlockeds_levels');
-      if (this.getCurrentLevel() + 1 >= unlockeds_levels) {
-        this.registry.inc('unlockeds_levels')
-      }
-      this.scene.restart({
-        gameStatus: "LEVEL_COMPELETED"
-      })
-
+    this.endLevel = this.physics.add
+      .sprite(end.x, end.y, 'door')
+      // .setAlpha(0)
+      // .setSize(5, 200)
+      .setOrigin(0, 1).setDepth(-1);
+    this.elOverlap = this.physics.add.overlap(this.player, this.endLevel, () => {
+      this.goToNextLevel()
     });
   }
 
@@ -268,6 +267,21 @@ class PlayScene extends Phaser.Scene {
   update() {
     this.BgSpikes.tilePositionX = this.cameras.main.scrollX * 0.3
     this.BGSkyPlay.tilePositionX = this.cameras.main.scrollX * 0.1
+  }
+
+  goToNextLevel() {
+    this.endLevel.play('open-door', true)
+    this.elOverlap.active = false;
+    this.registry.inc('level');
+    const unlockeds_levels = this.registry.get('unlockeds_levels');
+    if (this.getCurrentLevel() + 1 >= unlockeds_levels) {
+      this.registry.inc('unlockeds_levels')
+    }
+    setTimeout(() => {
+      this.scene.restart({
+        gameStatus: "LEVEL_COMPELETED"
+      })
+    }, 500);
   }
 
 }

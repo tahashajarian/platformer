@@ -10,7 +10,9 @@ import {
 } from '../utils/functions';
 
 import EventEmitter from '../events/emitter'
-import { EVENTS_TYPES } from '../types';
+import {
+  EVENTS_TYPES
+} from '../types';
 import InputsHandler from '../inputs';
 
 class Player extends Phaser.Physics.Arcade.Sprite {
@@ -101,8 +103,15 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (isSpaceJustDown && (onFloor || this.jumpCount < 1)) {
-      this.setVelocityY(-this.playerJump);
-      this.jumpCount += 1;
+      if (this.endLevelTouched) {
+        console.log('go to next level')
+        this.scene.goToNextLevel();
+      } else if (this.startLevelTouched) {
+        this.scene.goToPrevLevel();
+      } else {
+        this.setVelocityY(-this.playerJump);
+        this.jumpCount += 1;
+      }
     }
 
 

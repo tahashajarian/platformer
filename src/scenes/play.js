@@ -195,16 +195,6 @@ class PlayScene extends Phaser.Scene {
     };
   }
 
-  createPlayer(zone) {
-    this.player = new Player(this, zone.x, zone.y);
-    const startLevel = this.physics.add
-      .sprite(zone.x - 30, zone.y, 'door')
-      // .setAlpha(0)
-      // .setSize(5, 200)
-      .setOrigin(0, 1).setDepth(-1);
-    // startLevel.active = false;
-    startLevel.play('close-door', false)
-  }
 
   createEnemies(enemiesZone) {
     this.enemies = new Enemies(this);
@@ -250,14 +240,27 @@ class PlayScene extends Phaser.Scene {
   }
 
   createEndLevel(end) {
+    this.player.endLevelTouched = false
     this.endLevel = this.physics.add
       .sprite(end.x, end.y, 'door')
       // .setAlpha(0)
       // .setSize(5, 200)
       .setOrigin(0, 1).setDepth(-1);
-    this.elOverlap = this.physics.add.overlap(this.player, this.endLevel, () => {
-      this.goToNextLevel()
-    });
+    this.physics.add.overlap(this.player, this.endLevel);
+  }
+
+
+  createPlayer(zone) {
+    this.player = new Player(this, zone.x, zone.y);
+    this.player.startLevelTouched = false
+    this.startLevel = this.physics.add
+      .sprite(zone.x - 30, zone.y, 'door')
+      // .setAlpha(0)
+      // .setSize(5, 200)
+      .setOrigin(0, 1).setDepth(-1);
+    // startLevel.active = false;
+    this.startLevel.play('close-door', false)
+    this.physics.add.overlap(this.player, this.startLevel)
   }
 
   getCurrentLevel() {
@@ -267,22 +270,48 @@ class PlayScene extends Phaser.Scene {
   update() {
     this.BgSpikes.tilePositionX = this.cameras.main.scrollX * 0.3
     this.BGSkyPlay.tilePositionX = this.cameras.main.scrollX * 0.1
+    if (this.endLevel.body.touching.none && this.player.endLevelTouched) {
+      console.log('no touch')
+      this.player.endLevelTouched = false
+      this.endLevel.play('close-door', true)
+    }
+    if (!this.endLevel.body.touching.none && !this.player.endLevelTouched) {
+      console.log('toucheddd')
+      this.player.endLevelTouched = true
+      this.endLevel.play('open-door', true)
+    }
+    if (this.startLevel.body.touching.none && this.player.startLevelTouched) {
+      console.log('no touch')
+      this.player.startLevelTouched = false
+      this.startLevel.play('close-door', true)
+    }
+    if (!this.startLevel.body.touching.none && !this.player.startLevelTouched) {
+      console.log('toucheddd')
+      this.player.startLevelTouched = true
+      this.startLevel.play('open-door', true)
+    }
   }
 
   goToNextLevel() {
-    this.endLevel.play('open-door', true)
-    this.elOverlap.active = false;
     this.registry.inc('level');
     const unlockeds_levels = this.registry.get('unlockeds_levels');
     if (this.getCurrentLevel() + 1 >= unlockeds_levels) {
       this.registry.inc('unlockeds_levels')
     }
-    setTimeout(() => {
-      this.scene.restart({
-        gameStatus: "LEVEL_COMPELETED"
-      })
-    }, 500);
+    this.scene.restart({
+      gameStatus: "LEVEL_COMPELETED"
+    })
   }
+
+  goToPrevLevel() {
+    const curLevel = this.registry.get('level');
+    if (curLevel === 1) return;
+    this.registry.set('level', curLevel - 1);
+    this.scene.restart({
+      gameStatus: "LEVEL_COMPELETED"
+    })
+  }
+
 
 }
 

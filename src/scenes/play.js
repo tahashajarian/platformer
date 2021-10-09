@@ -24,7 +24,7 @@ class PlayScene extends Phaser.Scene {
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
     this.createLayers(this.map);
     this.getPlayerZone(this.layers.playerZone);
-    this.createPlayer(this.playerZone.start);
+    this.createPlayer(this.playerZone, this.playerBackedFromNextLevel);
     this.createEnemies(this.layers.enemiesZone);
     this.createBG();
     this.createCollectables(this.layers.collectables);
@@ -243,22 +243,21 @@ class PlayScene extends Phaser.Scene {
     this.player.endLevelTouched = false
     this.endLevel = this.physics.add
       .sprite(end.x, end.y, 'door')
-      // .setAlpha(0)
-      // .setSize(5, 200)
-      .setOrigin(0, 1).setDepth(-1);
+      .setOrigin(0.5, 1).setDepth(-1);
     this.physics.add.overlap(this.player, this.endLevel);
   }
 
 
-  createPlayer(zone) {
+  createPlayer({
+    start,
+    end
+  }, playerBackedFromNextLevel) {
+    const zone = playerBackedFromNextLevel ? end : start
     this.player = new Player(this, zone.x, zone.y);
     this.player.startLevelTouched = false
     this.startLevel = this.physics.add
-      .sprite(zone.x - 30, zone.y, 'door')
-      // .setAlpha(0)
-      // .setSize(5, 200)
-      .setOrigin(0, 1).setDepth(-1);
-    // startLevel.active = false;
+      .sprite(start.x , start.y, 'door')
+      .setOrigin(0.5, 1).setDepth(-1);
     this.startLevel.play('close-door', false)
     this.physics.add.overlap(this.player, this.startLevel)
   }
@@ -271,24 +270,22 @@ class PlayScene extends Phaser.Scene {
     this.BgSpikes.tilePositionX = this.cameras.main.scrollX * 0.3
     this.BGSkyPlay.tilePositionX = this.cameras.main.scrollX * 0.1
     if (this.endLevel.body.touching.none && this.player.endLevelTouched) {
-      console.log('no touch')
       this.player.endLevelTouched = false
       this.endLevel.play('close-door', true)
     }
     if (!this.endLevel.body.touching.none && !this.player.endLevelTouched) {
-      console.log('toucheddd')
       this.player.endLevelTouched = true
       this.endLevel.play('open-door', true)
     }
     if (this.startLevel.body.touching.none && this.player.startLevelTouched) {
-      console.log('no touch')
       this.player.startLevelTouched = false
-      this.startLevel.play('close-door', true)
+      if (this.registry.get('level') > 1)
+        this.startLevel.play('close-door', true)
     }
     if (!this.startLevel.body.touching.none && !this.player.startLevelTouched) {
-      console.log('toucheddd')
       this.player.startLevelTouched = true
-      this.startLevel.play('open-door', true)
+      if (this.registry.get('level') > 1)
+        this.startLevel.play('open-door', true)
     }
   }
 
@@ -301,7 +298,9 @@ class PlayScene extends Phaser.Scene {
     this.scene.restart({
       gameStatus: "LEVEL_COMPELETED"
     })
+    this.playerBackedFromNextLevel = false
   }
+
 
   goToPrevLevel() {
     const curLevel = this.registry.get('level');
@@ -310,6 +309,7 @@ class PlayScene extends Phaser.Scene {
     this.scene.restart({
       gameStatus: "LEVEL_COMPELETED"
     })
+    this.playerBackedFromNextLevel = true
   }
 
 

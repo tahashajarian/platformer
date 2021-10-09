@@ -243,7 +243,7 @@ class PlayScene extends Phaser.Scene {
     this.player.endLevelTouched = false
     this.endLevel = this.physics.add
       .sprite(end.x, end.y, 'door')
-      .setOrigin(0.5, 1).setDepth(-1);
+      .setOrigin(0.5, 1).setDepth(-1).setTint(0x89E289)
     this.physics.add.overlap(this.player, this.endLevel);
   }
 
@@ -256,8 +256,8 @@ class PlayScene extends Phaser.Scene {
     this.player = new Player(this, zone.x, zone.y);
     this.player.startLevelTouched = false
     this.startLevel = this.physics.add
-      .sprite(start.x , start.y, 'door')
-      .setOrigin(0.5, 1).setDepth(-1);
+      .sprite(start.x, start.y, 'door')
+      .setOrigin(0.5, 1).setDepth(-1).setTint(0xFE8585);
     this.startLevel.play('close-door', false)
     this.physics.add.overlap(this.player, this.startLevel)
   }
@@ -279,13 +279,13 @@ class PlayScene extends Phaser.Scene {
     }
     if (this.startLevel.body.touching.none && this.player.startLevelTouched) {
       this.player.startLevelTouched = false
-      if (this.registry.get('level') > 1)
-        this.startLevel.play('close-door', true)
+      // if (this.registry.get('level') > 1)
+      //   this.startLevel.play('close-door', true)
     }
     if (!this.startLevel.body.touching.none && !this.player.startLevelTouched) {
       this.player.startLevelTouched = true
-      if (this.registry.get('level') > 1)
-        this.startLevel.play('open-door', true)
+      // if (this.registry.get('level') > 1)
+      //   this.startLevel.play('open-door', true)
     }
   }
 

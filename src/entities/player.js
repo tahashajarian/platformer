@@ -106,7 +106,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       if (this.endLevelTouched) {
         this.scene.goToNextLevel();
       } else if (this.startLevelTouched) {
-        this.scene.goToPrevLevel();
+        // this.scene.goToPrevLevel();
       } else {
         this.setVelocityY(-this.playerJump);
         this.jumpCount += 1;

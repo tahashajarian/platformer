@@ -26,6 +26,7 @@ class PlayScene extends Phaser.Scene {
       this.soundManager = new AudioManager(this);
     }
     this.soundManager.playSound(SOUNDS.theme_music)
+    this.soundManager.stopSound(SOUNDS.menu_music);
     this.createMap();
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
     this.createLayers(this.map);
@@ -226,7 +227,7 @@ class PlayScene extends Phaser.Scene {
     this.collectables.addCollectableFromLayer(collectablesLayer)
   }
 
-  createColiders(item, coliders,) {
+  createColiders(item, coliders) {
     coliders.forEach((colid) => {
       item.addColider(colid.object, colid.callback, this);
     });

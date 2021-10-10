@@ -4,7 +4,7 @@ export default class AudioManager {
 	constructor(scene) {
 		this.scene = scene;
 		this.jump = this.scene.sound.add(SOUNDS.jump, {
-			volume: 0.5
+			volume: 0.1
 		})
 		this.coin_pickup = this.scene.sound.add(SOUNDS.coin_pickup, {
 			volume: 0.5
@@ -13,7 +13,7 @@ export default class AudioManager {
 			volume: 0.5
 		})
 		this.impact = this.scene.sound.add(SOUNDS.impact, {
-			volume: 0.5
+			volume: 0.1
 		})
 		this.projectile_launch = this.scene.sound.add(SOUNDS.projectile_launch, {
 			volume: 0.5
@@ -32,5 +32,9 @@ export default class AudioManager {
 
 	playSound(sound) {
 		this[sound].play();
+	}
+
+	stopSound(sound) {
+		this.scene.sound.get(sound).stop();
 	}
 }

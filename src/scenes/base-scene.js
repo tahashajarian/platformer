@@ -1,6 +1,9 @@
 import Phaser from "phaser";
-import { SECENE_NAMES } from "../types";
-import InputsHandler from '../inputs'
+import {
+  SECENE_NAMES,
+  SOUNDS
+} from "../types";
+import AudioManager from "../audio/audio-manager";
 
 
 class BaseScene extends Phaser.Scene {
@@ -14,7 +17,6 @@ class BaseScene extends Phaser.Scene {
     };
     this.lineHeight = 60;
     this.getLocalStorage();
-    
 
   }
 
@@ -31,6 +33,9 @@ class BaseScene extends Phaser.Scene {
     // graphics.fillRect(0, 0, this.config.width, this.config.height);
 
     this.listenToResize();
+    if (!this.soundManager) {
+      this.soundManager = new AudioManager(this);
+    }
   }
 
 

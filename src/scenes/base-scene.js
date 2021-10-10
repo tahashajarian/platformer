@@ -34,7 +34,6 @@ class BaseScene extends Phaser.Scene {
 
     this.listenToResize();
     if (!this.soundManager) {
-      this.soundManager = new AudioManager(this);
     }
   }
 

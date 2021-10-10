@@ -35,6 +35,7 @@ const config = {
     },
   },
   scene: initScenes(),
+  isMute: false,
 };
 
 // eslint-disable-next-line no-unused-vars

@@ -40,6 +40,9 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('cloud', 'assets/cloud.png');
     this.load.image('back', 'assets/back.png');
     this.load.image('pause', 'assets/pause.png');
+    this.load.image('sound', 'assets/sound.png');
+    this.load.image('sound-on', 'assets/sound-on.png');
+    this.load.image('sound-off', 'assets/sound-off.png');
     this.load.image('bg_menu', 'assets/bg_menu.png');
     this.load.image('fireball_1', 'assets/weapons/improved_fireball_001.png');
     this.load.image('fireball_2', 'assets/weapons/improved_fireball_002.png');

@@ -23,11 +23,12 @@ class PlayScene extends Phaser.Scene {
     gameStatus
   }) {
     this.score = 0
+    this.soundManager = new AudioManager(this);
     if (!this.soundManager) {
-      this.soundManager = new AudioManager(this);
     }
-    this.soundManager.playSound(SOUNDS.theme_music)
+    this.soundManager.playSound(SOUNDS.theme_music, 0.5, true)
     this.soundManager.stopSound(SOUNDS.menu_music);
+    initAnimations(this.anims)
     this.createMap();
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
     this.createLayers(this.map);
@@ -41,8 +42,8 @@ class PlayScene extends Phaser.Scene {
     this.createEndLevel(this.playerZone.end);
     this.createScoreBar()
     this.createBackButton();
+    // this.createSoundControlButton();
     this.listenToEvents()
-    initAnimations(this.anims)
     this.toast = new Toast(this, `Level ${this.registry.get('level')}`)
   }
 
@@ -102,6 +103,8 @@ class PlayScene extends Phaser.Scene {
     });
   }
 
+
+
   pauseGame() {
     this.isPaused = true;
     this.physics.pause();
@@ -143,13 +146,13 @@ class PlayScene extends Phaser.Scene {
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
     projectile.hit('hit-effect-anim')
-    this.soundManager.playSound(SOUNDS.impact)
+    this.soundManager.playSound(SOUNDS.impact, 0.1, false)
   }
 
   hitedByProjectile(player, projectile) {
     player.hited(player, projectile);
     projectile.hit('fireball_hit')
-    this.soundManager.playSound(SOUNDS.impact)
+    this.soundManager.playSound(SOUNDS.impact, 0.5, false)
   }
   onPlayerHitByEnemi(player, enemy) {
     this.player.hited(player, enemy)
@@ -163,7 +166,7 @@ class PlayScene extends Phaser.Scene {
 
   onHitPlaftormByProjectile(projectile) {
     projectile.hit('iceball_hit')
-    this.soundManager.playSound(SOUNDS.impact)
+    this.soundManager.playSound(SOUNDS.impact, 1, false)
   }
 
   onCollectCollectables(player, collected) {

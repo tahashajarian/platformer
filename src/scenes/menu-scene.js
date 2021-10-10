@@ -2,6 +2,7 @@ import BaseScene from './base-scene';
 import {
   SECENE_NAMES, SOUNDS
 } from '../types';
+import AudioManager from '../audio/audio-manager';
 
 class MenuScene extends BaseScene {
   constructor(config) {
@@ -25,7 +26,9 @@ class MenuScene extends BaseScene {
     super.create()
     // this.scene.start('PlayScene')
     this.createMenus(this.menus)
+    this.soundManager = new AudioManager(this);
     this.soundManager.playSound(SOUNDS.menu_music)
+
   }
 
 

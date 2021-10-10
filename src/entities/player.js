@@ -109,12 +109,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if (isSpaceJustDown && (onFloor || this.jumpCount < 1)) {
       if (this.endLevelTouched) {
         this.scene.goToNextLevel();
-      // } else if (this.startLevelTouched) {
+        // } else if (this.startLevelTouched) {
         // this.scene.goToPrevLevel();
       } else {
         this.setVelocityY(-this.playerJump);
         this.jumpCount += 1;
-        this.scene.soundManager.playSound(SOUNDS.jump)
+        this.scene.soundManager.playSound(SOUNDS.jump, 0.1, false)
       }
     }
 

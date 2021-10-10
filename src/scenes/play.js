@@ -50,7 +50,7 @@ class PlayScene extends Phaser.Scene {
       callback: this.player.touchedFloor,
     }, {
       object: this.enemies,
-      callback: this.player.hited,
+      callback: this.onPlayerHitByEnemi,
     }, {
       object: this.enemies.getProjectiles(),
       callback: this.hitedByProjectile,
@@ -148,6 +148,9 @@ class PlayScene extends Phaser.Scene {
     player.hited(player, projectile);
     projectile.hit('fireball_hit')
     this.soundManager.playSound(SOUNDS.impact)
+  }
+  onPlayerHitByEnemi(player, enemy) {
+    this.player.hited(player, enemy)
   }
 
   onSwordEnemy(melee, enemy) {

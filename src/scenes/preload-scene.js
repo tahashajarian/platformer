@@ -13,7 +13,7 @@ class PreloadScene extends Phaser.Scene {
     this.load.image('bg_color_tile', 'assets/bg_color_tile.png');
     this.load.image('bg_spikes', 'assets/bg_spikes.png')
     this.load.image('bg_sky_play', 'assets/bg_sky_play.png')
-    this.load.image('heart', 'assets/heart.png');
+    // this.load.image('heart', 'assets/heart.gif');
     this.load.image('arrow', 'assets/arrow.png');
     this.load.spritesheet('door', 'assets/door2.png' , {
       frameWidth: 67, frameHeight: 64, spacing: 1
@@ -62,6 +62,10 @@ class PreloadScene extends Phaser.Scene {
     });
     this.load.spritesheet('sword', 'assets/weapons/sword_sheet_1.png', {
       frameWidth: 52, frameHeight: 32, spacing: 16,
+    });
+
+    this.load.spritesheet('heart', 'assets/heart-anim.png', {
+      frameWidth: 26, frameHeight: 25, spacing: 24
     });
 
     this.load.once('complete', () => {

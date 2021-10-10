@@ -24,6 +24,7 @@ export default class Collectables extends Phaser.Physics.Arcade.StaticGroup {
       const { score, type } = this.mapProperties(collect.properties);
       const collectable = this.get(collect.x, collect.y, type || defaultType).setDepth(-1);
       collectable.score = score || defalutScore
+      collectable.typeCollect = type 
     })
   }
 }

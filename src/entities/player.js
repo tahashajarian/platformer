@@ -41,6 +41,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     this.hasBeenHited = false;
     this.bounceVelocity = 250;
     this.health = 50;
+    this.maxHealth = 50
     this.totalHealth = 100;
     this.hb = new HealthBar(this.scene, this.x, this.y, this.health)
     this.projectiles = new Projectiles(this.scene, 'iceball')
@@ -204,8 +205,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   hited(player, enemy) {
     if (this.hasBeenHited) return;
-    this.health -= enemy.damage || 0
     this.hasBeenHited = true;
+    this.health -= enemy.damage || 0
     this.bounceOff(enemy);
     this.tween()
     this.scene.time.delayedCall(1000, () => {
@@ -218,6 +219,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       EventEmitter.emit(EVENTS_TYPES.PLAYER_LOOSE);
       return;
     }
+  }
+
+  increaseLife(score) {
+    this.health += score;
+    if (this.health >= this.maxHealth) this.health = this.maxHealth
+
   }
 
   tween() {

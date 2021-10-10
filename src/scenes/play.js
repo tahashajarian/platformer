@@ -152,9 +152,13 @@ class PlayScene extends Phaser.Scene {
   }
 
   onCollectCollectables(player, collected) {
-    this.score += collected.score;
+    if (collected.typeCollect === 'heart') {
+      this.player.increaseLife(collected.score)
+    } else {
+      this.score += collected.score;
+      this.scoreBar.updateScore(this.score)
+    }
     collected.disableBody(true, true)
-    this.scoreBar.updateScore(this.score)
   }
 
   createMap() {

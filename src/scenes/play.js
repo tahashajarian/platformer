@@ -5,10 +5,12 @@ import Collectables from '../groups/collectables';
 import Scorebar from '../hud/scorebar';
 import {
   EVENTS_TYPES,
-  SECENE_NAMES
+  SECENE_NAMES,
+  SOUNDS
 } from '../types';
 import EventEmitter from '../events/emitter'
 import initAnimations from '../animations/door-anim'
+import AudioManager from '../audio/audio-manager';
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -20,6 +22,10 @@ class PlayScene extends Phaser.Scene {
     gameStatus
   }) {
     this.score = 0
+    if (!this.soundManager) {
+      this.soundManager = new AudioManager(this);
+    }
+    this.soundManager.playSound(SOUNDS.theme_music)
     this.createMap();
     if (gameStatus !== EVENTS_TYPES.PLAYER_LOOSE) this.createEventHandler()
     this.createLayers(this.map);
@@ -134,11 +140,13 @@ class PlayScene extends Phaser.Scene {
   onFiredEnemy(enemy, projectile) {
     enemy.takeHit(projectile)
     projectile.hit('hit-effect-anim')
+    this.soundManager.playSound(SOUNDS.impact)
   }
 
   hitedByProjectile(player, projectile) {
     player.hited(player, projectile);
     projectile.hit('fireball_hit')
+    this.soundManager.playSound(SOUNDS.impact)
   }
 
   onSwordEnemy(melee, enemy) {
@@ -149,9 +157,11 @@ class PlayScene extends Phaser.Scene {
 
   onHitPlaftormByProjectile(projectile) {
     projectile.hit('iceball_hit')
+    this.soundManager.playSound(SOUNDS.impact)
   }
 
   onCollectCollectables(player, collected) {
+    this.soundManager.playSound(SOUNDS.coin_pickup)
     if (collected.typeCollect === 'heart') {
       this.player.increaseLife(collected.score)
     } else {
@@ -216,9 +226,9 @@ class PlayScene extends Phaser.Scene {
     this.collectables.addCollectableFromLayer(collectablesLayer)
   }
 
-  createColiders(item, coliders) {
+  createColiders(item, coliders,) {
     coliders.forEach((colid) => {
-      item.addColider(colid.object, colid.callback);
+      item.addColider(colid.object, colid.callback, this);
     });
   }
 

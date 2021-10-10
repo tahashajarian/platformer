@@ -68,6 +68,16 @@ class PreloadScene extends Phaser.Scene {
       frameWidth: 26, frameHeight: 25, spacing: 24
     });
 
+    /// load sounds file
+    this.load.audio('jump', 'assets/music/jump.wav')
+    this.load.audio('coin_pickup', 'assets/music/coin_pickup.wav')
+    this.load.audio('menu_music', 'assets/music/menu_music.wav')
+    this.load.audio('impact', 'assets/music/impact.wav')
+    this.load.audio('projectile_launch', 'assets/music/projectile_launch.wav')
+    this.load.audio('step_mud', 'assets/music/step_mud.wav')
+    this.load.audio('swipe', 'assets/music/swipe.wav')
+    this.load.audio('theme_music', 'assets/music/theme_music.wav')
+
     this.load.once('complete', () => {
       this.startGame()
     })

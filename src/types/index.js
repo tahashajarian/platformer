@@ -18,3 +18,14 @@ export const SECENE_NAMES = {
   LEVEL_SCENE: 'LevelScene',
   PAUSE_SCENE: 'PauseScene',
 }
+
+export const SOUNDS = {
+  jump: 'jump',
+  coin_pickup: 'coin_pickup',
+  menu_music: 'menu_music',
+  impact: 'impact',
+  projectile_launch: 'projectile_launch',
+  step_mud: 'step_mud',
+  swipe: 'swipe',
+  theme_music: 'theme_music',
+}

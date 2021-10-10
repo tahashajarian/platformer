@@ -1,4 +1,6 @@
-import Phaser from 'phaser';
+import Phaser, {
+  Sound
+} from 'phaser';
 import initAnimations from '../animations/player-anims';
 import addColiders from '../mixins/add-coliders';
 import isAnimPlaying from '../mixins/anims';
@@ -11,7 +13,8 @@ import {
 
 import EventEmitter from '../events/emitter'
 import {
-  EVENTS_TYPES
+  EVENTS_TYPES,
+  SOUNDS
 } from '../types';
 import InputsHandler from '../inputs';
 
@@ -106,11 +109,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     if (isSpaceJustDown && (onFloor || this.jumpCount < 1)) {
       if (this.endLevelTouched) {
         this.scene.goToNextLevel();
-      } else if (this.startLevelTouched) {
+      // } else if (this.startLevelTouched) {
         // this.scene.goToPrevLevel();
       } else {
         this.setVelocityY(-this.playerJump);
         this.jumpCount += 1;
+        this.scene.soundManager.playSound(SOUNDS.jump)
       }
     }
 
@@ -144,6 +148,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
   playerMeleeFire() {
     if (this.lastMeleeTime + this.melee.attakSpeed < getTimeStamp()) {
+      this.scene.soundManager.playSound(SOUNDS.swipe)
       this.play('player-throw', false)
       this.melee.swing(this);
       this.lastMeleeTime = getTimeStamp();

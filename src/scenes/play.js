@@ -11,6 +11,7 @@ import {
 import EventEmitter from '../events/emitter'
 import initAnimations from '../animations/door-anim'
 import AudioManager from '../audio/audio-manager';
+import Toast from '../texts/toast';
 
 class PlayScene extends Phaser.Scene {
   constructor(config) {
@@ -42,6 +43,7 @@ class PlayScene extends Phaser.Scene {
     this.createBackButton();
     this.listenToEvents()
     initAnimations(this.anims)
+    this.toast = new Toast(this, `Level ${this.registry.get('level')}`)
   }
 
   createAllCoillisions() {
@@ -57,7 +59,7 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.layers.traps,
       callback: this.hitedByTraps,
-    }, ]);
+    },]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,

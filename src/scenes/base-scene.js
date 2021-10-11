@@ -3,7 +3,6 @@ import {
   SECENE_NAMES,
   SOUNDS
 } from "../types";
-import AudioManager from "../audio/audio-manager";
 
 
 class BaseScene extends Phaser.Scene {
@@ -24,9 +23,9 @@ class BaseScene extends Phaser.Scene {
     // this.bg = this.add.image(0, 0, "bg_menu").setOrigin(0);
     // this.bg.setScale(4, 4)
     // this.bg.setDisplaySize(this.config.width, this.config.height);
-    // const graphics = this.add.graphics();
-    // graphics.fillGradientStyle(0x00008b, 0x00008b, 0x87cefa, 0x87cefa, 1);
-    // graphics.fillRect(0, 0, this.config.width, this.config.height);
+    const graphics = this.add.graphics();
+    graphics.fillGradientStyle(0x00008b, 0x00008b, 0x87cefa, 0x87cefa, 1);
+    graphics.fillRect(0, 0, this.config.width, this.config.height);
 
     this.listenToResize();
     if (!this.soundManager) {

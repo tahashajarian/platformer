@@ -22,7 +22,8 @@ class PlayScene extends Phaser.Scene {
   create({
     gameStatus
   }) {
-    this.score = 0
+    this.score = localStorage.getItem(`coins-${this.registry.get('level')}`) || 0
+
     this.soundManager = new AudioManager(this);
     if (!this.soundManager) {
     }
@@ -45,6 +46,7 @@ class PlayScene extends Phaser.Scene {
     // this.createSoundControlButton();
     this.listenToEvents()
     this.toast = new Toast(this, `Level ${this.registry.get('level')}`)
+    this.scoreBar.updateScore(this.score)
   }
 
   createAllCoillisions() {
@@ -326,6 +328,7 @@ class PlayScene extends Phaser.Scene {
     this.scene.start(SECENE_NAMES.LEVEL_SCENE)
     this.playerBackedFromNextLevel = false
     localStorage.setItem('unlockeds_levels', this.registry.get('unlockeds_levels'))
+    localStorage.setItem(`coins-${this.registry.get('level')}`, this.score)
   }
 
 

@@ -31,6 +31,7 @@ class LevelScene extends BaseScene {
     this.grid = new AlignGrid(this.gridConfig);
     // this.grid.showNumbers();
     this.createUnlockedMenu(this.unlockeds_levels)
+    this.input.setDefaultCursor('pointer');
   }
 
   createUnlockedMenu(unlockeds_levels) {

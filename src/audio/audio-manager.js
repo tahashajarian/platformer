@@ -56,12 +56,12 @@ export default class AudioManager {
 
 		this.setPositionSpeaker();
 
-		this.soundControlButton = this.scene.add.container(0, 0, [this.soundBase, this.soundOn])
+		this.soundControlButton = this.scene.add.container(0, 8, [this.soundBase, this.soundOn])
 			.setScrollFactor(0)
 			.setDepth(100)
 			.setAlpha(0.6)
 
-		this.soundBase.on("pointerdown", () => {
+		this.soundBase.on("pointerdown", (e) => {
 			this.toggleSound();
 		});
 	}
@@ -72,6 +72,6 @@ export default class AudioManager {
 				setPosition(98, 22)
 		} else {
 			this.soundOn.setTexture('sound-on').setScale(0.4)
-				.setPosition(98, 17)
+				.setPosition(98, 16)
 		}	}
 }

@@ -6,7 +6,7 @@ class Toast extends Phaser.GameObjects.Text {
       fontSize: 45
     })
     scene.add.existing(this)
-    this.setOrigin(0, 0.5)
+    this.setOrigin(0.5, 1)
     this.setScrollFactor(0)
     const { width, height } = scene.config
     this.x = width / 2;

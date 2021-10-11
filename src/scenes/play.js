@@ -314,14 +314,18 @@ class PlayScene extends Phaser.Scene {
 
   goToNextLevel() {
     this.registry.inc('level');
+    this.soundManager.playSound(SOUNDS.victory1, 0.5)
+    this.soundManager.playSound(SOUNDS.victory2, 1)
     const unlockeds_levels = this.registry.get('unlockeds_levels');
-    if (this.getCurrentLevel() + 1 >= unlockeds_levels) {
+    if (this.getCurrentLevel() > unlockeds_levels) {
       this.registry.inc('unlockeds_levels')
     }
-    this.scene.restart({
-      gameStatus: "LEVEL_COMPELETED"
-    })
+    // this.scene.restart({
+    //   gameStatus: "LEVEL_COMPELETED"
+    // })
+    this.scene.start(SECENE_NAMES.LEVEL_SCENE)
     this.playerBackedFromNextLevel = false
+    localStorage.setItem('unlockeds_levels', this.registry.get('unlockeds_levels'))
   }
 
 

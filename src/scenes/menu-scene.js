@@ -27,7 +27,7 @@ class MenuScene extends BaseScene {
     // this.scene.start('PlayScene')
     this.createMenus(this.menus)
     this.soundManager = new AudioManager(this);
-    this.soundManager.playSound(SOUNDS.menu_music)
+    this.soundManager.playSound(SOUNDS.menu_music, 0.05, true)
 
   }
 

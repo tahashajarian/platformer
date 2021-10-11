@@ -16,13 +16,9 @@ class BaseScene extends Phaser.Scene {
       fill: "#fff"
     };
     this.lineHeight = 60;
-    this.getLocalStorage();
 
   }
 
-  getLocalStorage() {
-    this.localStorage = localStorage.getItem('user-data');
-  }
 
   create() {
     // this.bg = this.add.image(0, 0, "bg_menu").setOrigin(0);

@@ -28,4 +28,6 @@ export const SOUNDS = {
   step_mud: 'step_mud',
   swipe: 'swipe',
   theme_music: 'theme_music',
+  victory1: 'victory1',
+  victory2: 'victory2'
 }

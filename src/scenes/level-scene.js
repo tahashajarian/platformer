@@ -14,16 +14,18 @@ class LevelScene extends BaseScene {
   create() {
     super.create()
     // this.scene.start('PlayScene')
-    this.fontStyle = {
-      fontSize: "28px",
-      fontWeight: 'bold'
-    };
     // this.unlockeds_levels = this.registry.get('unlockeds_levels')
     this.unlockeds_levels = this.registry.get('unlockeds_levels')
     this.unlockeds_levels = localStorage.getItem('unlockeds_levels') || 1;
     const { width, height } = this.config;
     const relSizeWidth = width / height
     const relSizeHeight = height / width
+    this.fontStyle = {
+      fontSize: width > 500 ? '42px' : '28px',
+      fontWeight: '900',
+      fontStroke: width > 500 ? 35 : 20,
+      fontSizeTitle: width > 500 ? '52px' : '32px',
+    };
     const allCells = 8;
     const rows = Math.round(allCells * relSizeHeight)
     const cols = Math.round(allCells * relSizeWidth)
@@ -49,26 +51,33 @@ class LevelScene extends BaseScene {
       })
     }
     this.createMenus(menus)
+    this.setUpBack()
   }
 
   createMenus() {
+    const title = this.add.text(0, 0, ` Levels `, { fontSize: this.fontStyle.fontSizeTitle, fill: '#fff' }).setOrigin(0.5, 0);
+    const midleOfRow = (this.gridConfig.cols - 1) / 2
+    title.setStroke('#00f', this.fontStyle.fontStroke);
+    title.setShadow(2, 2, "#333333", 2, true, true)
+    console.log(midleOfRow)
+    this.grid.placeAtIndex(midleOfRow, title)
     let level = 0;
-    const iStart = this.gridConfig.rows < 5 ? 0 : 1;
+    let iStart = this.gridConfig.rows <= 3 ? 0 : 1;
     const iEnd = this.gridConfig.rows < 5 ? this.gridConfig.rows : this.gridConfig.rows - 1;
     const jStart = this.gridConfig.cols < 5 ? 0 : 1;
     const jEnd = this.gridConfig.cols < 5 ? this.gridConfig.cols : this.gridConfig.cols - 1;
+    if (this.gridConfig.rows > 10) iStart++
+
     for (let i = iStart; i < iEnd; i++) {
       for (let j = jStart; j < jEnd; j++) {
         let levelnumber = level
         if (level < 30) {
           const fill = level < this.unlockeds_levels ? '#00ff00' : '#ff0000'
-          const levelText = this.add.text(0, 0, `${level + 1}`, { ...this.fontStyle, fill })
+          const levelText = this.add.text(0, 0, ` ${level + 1} `, { ...this.fontStyle, fill })
             .setOrigin(0.5)
             .setInteractive()
             .setScrollFactor(0).on('pointerup', () => this.down(levelnumber + 1))
-          levelText.setStroke('#00f', 16);
-          levelText.setShadow(2, 2, "#333333", 2, true, true);
-          levelText.setStroke('#fff', 16);
+          levelText.setStroke('#fff', this.fontStyle.fontStroke);
           levelText.setShadow(2, 2, "#333333", 2, true, true);
 
           this.grid.placeAt(j, i, levelText)
@@ -91,6 +100,25 @@ class LevelScene extends BaseScene {
 
   update() {
     super.update();
+  }
+
+  setUpBack(menu) {
+    const backMenu = this.add.image(this.config.width - 10, this.config.height - 10, 'back')
+      .setOrigin(1)
+      .setScale(2)
+
+    backMenu.setInteractive()
+    backMenu.on('pointerover', () => {
+      backMenu.setScale(2.1)
+    })
+
+    backMenu.on('pointerout', () => {
+      backMenu.setScale(2)
+    })
+
+    backMenu.on('pointerup', () => {
+      this.scene.start(SECENE_NAMES.MENU_SCENE)
+    })
   }
 }
 

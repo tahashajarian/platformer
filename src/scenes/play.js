@@ -27,7 +27,7 @@ class PlayScene extends Phaser.Scene {
     this.soundManager = new AudioManager(this);
     if (!this.soundManager) {
     }
-    this.soundManager.playSound(SOUNDS.theme_music, 0.5, true)
+    this.soundManager.playSound(SOUNDS.theme_music, 0.5, false)
     this.soundManager.stopSound(SOUNDS.menu_music);
     initAnimations(this.anims)
     this.createMap();

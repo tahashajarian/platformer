@@ -33,7 +33,6 @@ export default class AudioManager {
 
 	toggleSound() {
 		this.scene.config.isMute = !this.scene.config.isMute;
-		console.log('togle')
 		const allMusic = this.scene.sound.getAll();
 		allMusic.forEach(music => {
 			music.setMute(this.scene.config.isMute);
@@ -71,7 +70,7 @@ export default class AudioManager {
 			this.soundOn.setTexture('sound-off').setScale(0.25).
 				setPosition(98, 22)
 		} else {
-			this.soundOn.setTexture('sound-on').setScale(0.4)
-				.setPosition(98, 16)
+			this.soundOn.setTexture('sound-on').setScale(0.15)
+				.setPosition(98, 15)
 		}	}
 }

@@ -3,6 +3,7 @@ import {
   SECENE_NAMES,
   SOUNDS
 } from "../types";
+import { AlignGrid } from "../utils/alignGrid";
 
 
 class BaseScene extends Phaser.Scene {
@@ -14,7 +15,7 @@ class BaseScene extends Phaser.Scene {
       fontSize: "45px",
       fill: "#fff"
     };
-    this.lineHeight = 60;
+    this.lineHeight = 75;
 
   }
 
@@ -28,8 +29,13 @@ class BaseScene extends Phaser.Scene {
     graphics.fillRect(0, 0, this.config.width, this.config.height);
 
     this.listenToResize();
-    if (!this.soundManager) {
-    }
+    const rows = 5;
+    const cols = 5;
+    this.gridConfig = { scene: this, rows, cols };
+    this.grid = new AlignGrid(this.gridConfig);
+    // this.grid.showNumbers();
+    this.input.setDefaultCursor('pointer');
+
   }
 
 
@@ -44,7 +50,8 @@ class BaseScene extends Phaser.Scene {
 
   createMenus(menu) {
     let lastItmeMenuY = 0;
-    menu.forEach((menuItem) => {
+    let startIndex = 2;
+    menu.forEach((menuItem, index) => {
       if (menuItem.text === 'back') {
         this.setUpBack(menuItem)
       } else {
@@ -54,8 +61,10 @@ class BaseScene extends Phaser.Scene {
         ];
         menuItem.textGO = this.add
           .text(...textPosition, menuItem.text, this.fontStyle)
-          .setOrigin(0.5, 1);
-        lastItmeMenuY += this.lineHeight;
+          .setOrigin(0.5, 0.5);
+        // lastItmeMenuY += this.lineHeight;
+        startIndex += 5
+        this.grid.placeAtIndex(startIndex, menuItem.textGO)
         this.setUpMenuEvent(menuItem);
       }
     });
@@ -64,17 +73,23 @@ class BaseScene extends Phaser.Scene {
   setUpMenuEvent(menuItem) {
     const textGO = menuItem.textGO;
     textGO.setInteractive();
+    textGO.setStroke('#00f', 16);
+    textGO.setShadow(2, 2, "#333333", 2, true, true)
 
     textGO.on('pointerover', () => {
       textGO.setStyle({
         fill: '#ff0'
       })
+      textGO.setStroke('#00f', 16);
+      textGO.setShadow(2, 2, "#333333", 2, true, true);
     })
 
     textGO.on('pointerout', () => {
       textGO.setStyle({
         fill: this.fontStyle.fill
       })
+      textGO.setStroke('#00f', 16);
+      textGO.setShadow(2, 2, "#333333", 2, true, true);
     })
 
     textGO.on('pointerup', () => {

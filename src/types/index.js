@@ -29,5 +29,6 @@ export const SOUNDS = {
   swipe: 'swipe',
   theme_music: 'theme_music',
   victory1: 'victory1',
-  victory2: 'victory2'
+  victory2: 'victory2',
+  die: 'die'
 }

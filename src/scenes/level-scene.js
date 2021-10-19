@@ -57,7 +57,7 @@ class LevelScene extends BaseScene {
   createMenus() {
     const title = this.add.text(0, 0, ` Levels `, { fontSize: this.fontStyle.fontSizeTitle, fill: '#fff' }).setOrigin(0.5, 0);
     const midleOfRow = (this.gridConfig.cols - 1) / 2
-    title.setStroke('#00f', this.fontStyle.fontStroke);
+    title.setStroke('#000', this.fontStyle.fontStroke);
     title.setShadow(2, 2, "#333333", 2, true, true)
     console.log(midleOfRow)
     this.grid.placeAtIndex(midleOfRow, title)

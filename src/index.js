@@ -24,6 +24,7 @@ const initScenes = () => scenes.map((Scene) => new Scene(SHARED_CONFIG));
 
 const config = {
   type: Phaser.AUTO,
+  mode: Phaser.Scale.RESIZE,
   width: SHARED_CONFIG.width,
   height: SHARED_CONFIG.height,
   pixelArt: true,
@@ -39,4 +40,8 @@ const config = {
 };
 
 // eslint-disable-next-line no-unused-vars
-const Game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+window.addEventListener("resize", () => {
+  game.scale.resize(window.innerWidth / ZOOM, window.innerHeight / ZOOM);
+}, false);

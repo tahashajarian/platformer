@@ -3,7 +3,9 @@ import {
   SECENE_NAMES,
   SOUNDS
 } from "../types";
-import { AlignGrid } from "../utils/alignGrid";
+import {
+  AlignGrid
+} from "../utils/alignGrid";
 
 
 class BaseScene extends Phaser.Scene {
@@ -21,17 +23,30 @@ class BaseScene extends Phaser.Scene {
 
 
   create() {
-    // this.bg = this.add.image(0, 0, "bg_menu").setOrigin(0);
-    // this.bg.setScale(4, 4)
-    // this.bg.setDisplaySize(this.config.width, this.config.height);
-    const graphics = this.add.graphics();
-    graphics.fillGradientStyle(0x00008b, 0x00008b, 0x87cefa, 0x87cefa, 1);
-    graphics.fillRect(0, 0, this.config.width, this.config.height);
+    const {
+      width,
+      height
+    } = this.config
+    if (this.config.width < 800) {
+      this.bg = this.add.image(0, 0, "menu-bg-mobile").setOrigin(0);
+
+    } else {
+      this.bg = this.add.image(0, 0, "menu-bg").setOrigin(0);
+    }
+    this.bg.setScale(width / this.bg.width, height / this.bg.height)
+    this.bg.setDisplaySize(this.config.width, this.config.height);
+    // const graphics = this.add.graphics();
+    // graphics.fillGradientStyle(0x00008b, 0x00008b, 0x87cefa, 0x87cefa, 1);
+    // graphics.fillRect(0, 0, this.config.width, this.config.height);
 
     this.listenToResize();
     const rows = 5;
     const cols = 5;
-    this.gridConfig = { scene: this, rows, cols };
+    this.gridConfig = {
+      scene: this,
+      rows,
+      cols
+    };
     this.grid = new AlignGrid(this.gridConfig);
     // this.grid.showNumbers();
     this.input.setDefaultCursor('pointer');
@@ -73,14 +88,14 @@ class BaseScene extends Phaser.Scene {
   setUpMenuEvent(menuItem) {
     const textGO = menuItem.textGO;
     textGO.setInteractive();
-    textGO.setStroke('#00f', 16);
+    textGO.setStroke('#000', 16);
     textGO.setShadow(2, 2, "#333333", 2, true, true)
 
     textGO.on('pointerover', () => {
       textGO.setStyle({
         fill: '#ff0'
       })
-      textGO.setStroke('#00f', 16);
+      textGO.setStroke('#000', 16);
       textGO.setShadow(2, 2, "#333333", 2, true, true);
     })
 
@@ -88,7 +103,7 @@ class BaseScene extends Phaser.Scene {
       textGO.setStyle({
         fill: this.fontStyle.fill
       })
-      textGO.setStroke('#00f', 16);
+      textGO.setStroke('#000', 16);
       textGO.setShadow(2, 2, "#333333", 2, true, true);
     })
 

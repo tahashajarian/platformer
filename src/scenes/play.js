@@ -22,11 +22,10 @@ class PlayScene extends Phaser.Scene {
   create({
     gameStatus
   }) {
-    this.score = localStorage.getItem(`coins-${this.registry.get('level')}`) || 0
+    this.score = (localStorage.getItem(`coins-${this.registry.get('level')}`) && parseInt(localStorage.getItem(`coins-${this.registry.get('level')}`))) || 0
 
     this.soundManager = new AudioManager(this);
-    if (!this.soundManager) {
-    }
+    if (!this.soundManager) {}
     this.soundManager.playSound(SOUNDS.theme_music, 0.5, false)
     this.soundManager.stopSound(SOUNDS.menu_music);
     initAnimations(this.anims)
@@ -62,7 +61,7 @@ class PlayScene extends Phaser.Scene {
     }, {
       object: this.layers.traps,
       callback: this.hitedByTraps,
-    },]);
+    }, ]);
     this.createColiders(this.enemies, [{
       object: this.player.projectiles,
       callback: this.onFiredEnemy,

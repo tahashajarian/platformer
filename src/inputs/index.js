@@ -1,4 +1,7 @@
-import { detectDeviceType, getTimeStamp } from "../utils/functions";
+import {
+  detectDeviceType,
+  getTimeStamp
+} from "../utils/functions";
 
 class InputsHandler {
   constructor(scene, cursor) {
@@ -12,7 +15,10 @@ class InputsHandler {
     if (this.isMobile) {
       this.handlePointers()
     }
-    this.pointers = { 1: {}, 2: {} }
+    this.pointers = {
+      1: {},
+      2: {}
+    }
     this.scene.input.addPointer(2)
   }
 
@@ -32,11 +38,17 @@ class InputsHandler {
   handlePointers() {
 
     this.scene.input.on('pointerdown', (e) => {
-      this.pointers[e.id].pointerDown = { x: e.downX, y: e.downY };
+      this.pointers[e.id].pointerDown = {
+        x: e.downX,
+        y: e.downY
+      };
       this.pointers[e.id].isDown = true;
     })
     this.scene.input.on('pointermove', (e) => {
-      this.pointers[e.id].move = { x: e.x, y: e.y, };
+      this.pointers[e.id].move = {
+        x: e.x,
+        y: e.y,
+      };
       if (this.pointers[e.id].isDown) {
         this.detectMovement(this.pointers[e.id], e.id);
       }
@@ -45,7 +57,10 @@ class InputsHandler {
       this.pointers[e.id].isDown = false;
       this.pointers[e.id].previousTap = this.pointers[e.id].currentTap;
       this.pointers[e.id].currentTap = getTimeStamp()
-      this.pointers[e.id].pointerUp = { x: e.upX, y: e.upY, };
+      this.pointers[e.id].pointerUp = {
+        x: e.upX,
+        y: e.upY,
+      };
       this.checkShoot(this.pointers[e.id]);
       this.setAllCursorFalse(e.id);
     })
@@ -56,8 +71,13 @@ class InputsHandler {
   }
 
 
-  checkShoot({ pointerDown: start, pointerUp: end, previousTap, currentTap }) {
-    
+  checkShoot({
+    pointerDown: start,
+    pointerUp: end,
+    previousTap,
+    currentTap
+  }) {
+
     const xDistance = start.x - end.x
     const yDistance = start.y - end.y;
     const xDistanceAbs = Math.abs(xDistance)
@@ -75,11 +95,17 @@ class InputsHandler {
     }
   }
 
-  detectMovement({ pointerDown: start, move }, id) {
+  detectMovement({
+    pointerDown: start,
+    move
+  }, id) {
     const xDistance = start.x - move.x
     const yDistance = start.y - move.y;
     const xDistanceAbs = Math.abs(xDistance)
     const yDistanceAbs = Math.abs(yDistance)
+    if ((this.cursor.right.isDown && this.cursor.left.isDown) || (this.cursor.up.isDown && this.cursor.down.isDown)) {
+      this.setAllCursorFalse();
+    }
     if (xDistanceAbs > 50) {
       if (xDistance > 0) {
         this.cursor.left.isDown = true

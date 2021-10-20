@@ -37,11 +37,12 @@ const config = {
   },
   scene: initScenes(),
   isMute: false,
+  
 };
 
 // eslint-disable-next-line no-unused-vars
 const game = new Phaser.Game(config);
 
 window.addEventListener("resize", () => {
-  game.scale.resize(window.innerWidth / ZOOM, window.innerHeight / ZOOM);
+  game.scale.resize(innerWidth / ZOOM, innerHeight / ZOOM);
 }, false);

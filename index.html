@@ -6,36 +6,33 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="manifest" href="manifest.json">
   <title>platformer</title>
   <style>
-    html {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
     body {
-      padding: 0;
       margin: 0;
+      padding: 0;
       overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       height: 100vh;
-      width: 100vw;
-      background: black;
-      max-width: 1280px;
-      max-height: 600px;
-    }
-
-    canvas {
-      /* box-shadow: 0 0 20px 7px #ffffff70; */
-      border-radius: 5px;
+      background-color: black;
     }
   </style>
 </head>
 
-<body></body>
+<body>
+  <main>
+
+  </main>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker
+          .register("/serviceWorker.js")
+          .then(res => console.log("service worker registered"))
+          .catch(err => console.log("service worker not registered", err))
+      })
+    }
+  </script>
+</body>
 
 </html>

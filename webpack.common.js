@@ -25,15 +25,13 @@ module.exports = {
     }
   },
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        }
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
       }
-    ]
+    }]
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
@@ -49,12 +47,10 @@ module.exports = {
       template: './index.html'
     }),
     new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, 'assets/**/*'),
-          to: path.resolve(__dirname, 'build')
-        }
-      ],
+      patterns: [{
+        from: path.resolve(__dirname, 'assets/**/*'),
+        to: path.resolve(__dirname, 'build')
+      }],
     })
   ],
 };

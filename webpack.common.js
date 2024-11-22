@@ -47,10 +47,12 @@ module.exports = {
       template: './index.html'
     }),
     new CopyPlugin({
-      patterns: [{
-        from: path.resolve(__dirname, 'assets/**/*'),
-        to: path.resolve(__dirname, 'build')
-      }],
-    })
+      patterns: [
+        {
+          from: 'assets', // Use relative path (from project root)
+          to: 'assets',   // Destination directory inside the build folder
+        },
+      ],
+    }),
   ],
 };

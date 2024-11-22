@@ -20,7 +20,7 @@ const SHARED_CONFIG = {
   zoom: ZOOM,
 };
 
-const scenes = [TestScene, PreloadScene, MenuScene, LevelScene, PlayScene, PauseScene];
+const scenes = [PreloadScene, MenuScene, LevelScene, PlayScene, PauseScene];
 const initScenes = () => scenes.map((Scene) => new Scene(SHARED_CONFIG));
 
 const config = {
